@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+  nginx:
+    container_name: frontend_nginx${HASH}
+    build: nginx/.
+
+    ports:
+      - "8080:80"
+
+    volumes:
+      - ../../client/dist:/var/www/dist
