@@ -38816,7 +38816,7 @@
 
 
 	  _createClass(LoginPage, [{
-	    key: "processForm",
+	    key: "submitForm",
 	    value: function processForm(event) {
 	      var self = this;
 
@@ -38892,7 +38892,7 @@
 	    key: "render",
 	    value: function render() {
 	      return _react2.default.createElement(_LoginForm2.default, {
-	        onSubmit: this.processForm,
+	        onSubmit: this.submitForm,
 	        onChange: this.changeUser,
 	        errors: this.state.errors,
 	        successMessage: this.state.successMessage,
@@ -40877,7 +40877,7 @@
 
 
 	  _createClass(SignUpPage, [{
-	    key: 'processForm',
+	    key: 'submitForm',
 	    value: function processForm(event) {
 	      var _this2 = this;
 

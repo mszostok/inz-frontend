@@ -15,5 +15,3 @@ render((
     </MuiThemeProvider>
 ), document.getElementById('app'))
 
-
-

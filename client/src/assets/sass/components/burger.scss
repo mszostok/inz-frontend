@@ -1,0 +1,93 @@
+@import '../libs/variable.scss';
+@import '../bootstrap/variables';
+
+
+// Burger Menu
+.nav-toggle {
+  position: absolute;
+  top: 1px;
+  right: 0;
+  z-index: 21;
+  padding: 6px 0 0 0;
+  margin: 0 auto;
+  height: 44px;
+  width: 44px;
+  border-bottom: none !important;
+
+  display: none;
+  cursor: pointer;
+  text-decoration: none;
+
+  @media screen and (max-width: $screen-sm) {
+    display: block;
+  }
+
+  &.active i {
+    &::before, &::after {
+      background: $brand-primary;
+    }
+  }
+  &:hover, &:focus, &:active {
+    outline: none;
+    border-bottom: none !important;
+  }
+  i {
+    position: relative;
+    @include inline-block;
+    width: 25px;
+    height: 3px;
+    color: $brand-primary;
+    font: bold 14px/.4 Helvetica;
+    text-transform: uppercase;
+    text-indent: -55px;
+    background: $brand-primary;
+    transition: all .2s ease-out;
+    &::before, &::after {
+      content: '';
+      width: 25px;
+      height: 3px;
+      background: $brand-primary;
+      position: absolute;
+      left: 0;
+      @include transition(.2s);
+    }
+  }
+}
+
+.nav-toggle i::before {
+  top: -7px;
+}
+
+.nav-toggle i::after {
+  bottom: -7px;
+}
+
+.nav-toggle:hover i::before {
+  top: -10px;
+}
+
+.nav-toggle:hover i::after {
+  bottom: -10px;
+}
+
+.nav-toggle.active i {
+  background: transparent;
+}
+
+.nav-toggle.active i::before {
+  top: 0;
+  -webkit-transform: rotateZ(45deg);
+  -moz-transform: rotateZ(45deg);
+  -ms-transform: rotateZ(45deg);
+  -o-transform: rotateZ(45deg);
+  transform: rotateZ(45deg);
+}
+
+.nav-toggle.active i::after {
+  bottom: 0;
+  -webkit-transform: rotateZ(-45deg);
+  -moz-transform: rotateZ(-45deg);
+  -ms-transform: rotateZ(-45deg);
+  -o-transform: rotateZ(-45deg);
+  transform: rotateZ(-45deg);
+}

@@ -1,129 +1,65 @@
-import React, {PropTypes} from "react";
+import React, {PropTypes, Component} from "react";
 import LoginForm from "../components/LoginForm.jsx";
+import Auth from "../modules/Auth";
+import {observable} from "mobx";
 
+class LoginPage extends Component {
 
-class LoginPage extends React.Component {
+    constructor(props, context) {
+        super(props, context);
 
-  /**
-   * Class constructor.
-   */
-  constructor(props, context) {
-    super(props, context);
+        this.user = observable({
+            email: 'szostok.mateusz@gmail.com',
+            password: 'demo',
+        });
 
-    const storedMessage = localStorage.getItem('successMessage');
-    let successMessage = '';
+        this.error = observable({
+            summary: '',
+        });
 
-    if (storedMessage) {
-      successMessage = storedMessage;
-      localStorage.removeItem('successMessage');
+        this.submitForm = this.submitForm.bind(this);
     }
 
-    // set the initial component state
-    this.state = {
-      errors: {},
-      successMessage,
-      user: {
-        email: '',
-        password: ''
-      }
-    };
+    submitForm(event) {
+        event.preventDefault();
 
-    this.processForm = this.processForm.bind(this);
-    this.changeUser = this.changeUser.bind(this);
-  }
+        const email = encodeURIComponent(this.user.email);
+        const password = encodeURIComponent(this.user.password);
+        console.log("email: ", email);
+        Auth.login(email, password, (err) => {
+            if (err) {
+                this.error.summary = err.message;
+                return;
+            }
 
-  /**
-   * Process the form.
-   *
-   * @param {object} event - the JavaScript event object
-   */
-  processForm(event) {
-    var self = this;
+            const {location} = this.props;
 
-    // prevent default action. in this case, action is the form submission event
-    event.preventDefault();
+            if (location.state && location.state.nextPathname) {
+                console.log("redirecting to previous location: ", location.state.nextPathname);
+                this.context.router.replace(location.state.nextPathname)
+            } else {
+                this.context.router.replace('/')
+            }
+        });
+    }
 
-    // create a string for an HTTP body message
-    const email = encodeURIComponent(this.state.user.email);
-    const password = encodeURIComponent(this.state.user.password);
-    const formData = `username=${email}&password=${password}`;
-
-    var reqInit = {
-      method: 'POST',
-      headers: new Headers({
-        "Content-Type": "application/x-www-form-urlencoded",
-      }),
-      body: formData
-    };
-
-    var loginReq = new Request('http://localhost:8080/api/auth/login', reqInit);
-    fetch(loginReq)
-      .then(function (response) {
-          if (response.status !== 200) {
-            console.log('Looks like there was a problem. Status Code: ' + response.status);
-            response.json().then(function (data) {
-              console.log(data);
-              // change the component state
-              const errors = response.errors ? xhr.response.errors : {};
-              errors.summary = data.message;
-
-              self.setState({
-                errors
-              });
-
-            });
-            return;
-          }
-
-          // save the token
-          response.json().then(function (data) {
-            console.log(data);
-           // Auth.authenticateUser(data.token);
-          });
-
-          // change the current URL to /
-          self.context.router.replace('/');
-        }
-      )
-      .catch(function (err) {
-        console.log('Fetch Error', err);
-      });
-  }
-
-  /**
-   * Change the user object.
-   *
-   * @param {object} event - the JavaScript event object
-   */
-  changeUser(event) {
-    const field = event.target.name;
-    const user = this.state.user;
-    user[field] = event.target.value;
-
-    this.setState({
-      user
-    });
-  }
-
-  /**
-   * Render the component.
-   */
-  render() {
-    return (
-      <LoginForm
-        onSubmit={this.processForm}
-        onChange={this.changeUser}
-        errors={this.state.errors}
-        successMessage={this.state.successMessage}
-        user={this.state.user}
-      />
-    );
-  }
+    /**
+     * Render the component.
+     */
+    render() {
+        return (
+            <LoginForm
+                submitForm={this.submitForm}
+                user={this.user}
+                error={this.error}
+            />
+        );
+    }
 
 }
 
 LoginPage.contextTypes = {
-  router: PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
 };
 
 export default LoginPage;

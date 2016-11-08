@@ -2,42 +2,10 @@
 	
 	'use strict';
 
-	// iPad and iPod detection	
-	var isiPad = function(){
-		return (navigator.platform.indexOf("iPad") != -1);
-	};
-
-	var isiPhone = function(){
-	    return (
-			(navigator.platform.indexOf("iPhone") != -1) || 
-			(navigator.platform.indexOf("iPod") != -1)
-	    );
-	};
-
-
-
-
-
-	// animate-box
-	var contentWayPoint = function() {
-
-		$('.animate-box').waypoint( function( direction ) {
-
-			if( direction === 'down' && !$(this).hasClass('animated') ) {
-			
-				$(this.element).addClass('fadeInUp animated');
-			
-			}
-
-		} , { offset: '75%' } );
-
-	};
-
-
 	// Burger Menu
 	var burgerMenu = function() {
 
-		$('body').on('click', '.js-fh5co-nav-toggle', function(event){
+		$('body').on('click', '.js-burger-nav-toggle', function(event){
 
 			if ( $('#navbar').is(':visible') ) {
 				$(this).removeClass('active');	
@@ -51,8 +19,6 @@
 
 	};
 
-
-
 	// Page Nav
 	var clickMenu = function() {
 
@@ -61,12 +27,12 @@
 				navbar = $('#navbar');
 		    $('html, body').animate({
 		        scrollTop: $('[data-section="' + section + '"]').offset().top
-		    }, 500);
+		    }, 1);
 
 		    if ( navbar.is(':visible')) {
 		    	navbar.removeClass('in');
 		    	navbar.attr('aria-expanded', 'false');
-		    	$('.js-fh5co-nav-toggle').removeClass('active');
+		    	$('.js-burger-nav-toggle').removeClass('active');
 		    }
 
 		    event.preventDefault();
@@ -111,100 +77,26 @@
 
 	// Window Scroll
 	var windowScroll = function() {
-		var lastScrollTop = 0;
-
 		$(window).scroll(function(event){
-
-		   	var header = $('#fh5co-header'),
+		   	var header = $('#header-scroll'),
 				scrlTop = $(this).scrollTop();
 
-			if ( scrlTop > 500 && scrlTop <= 2000 ) {
-				header.addClass('navbar-fixed-top fh5co-animated slideInDown');
-			} else if ( scrlTop <= 500) {
+			if ( scrlTop > 200 && scrlTop <= 2000 ) {
+				header.addClass('navbar-fixed-top header-smooth-anim slideInDown');
+			} else if ( scrlTop <= 300) {
 				if ( header.hasClass('navbar-fixed-top') ) {
-					header.addClass('navbar-fixed-top fh5co-animated slideOutUp');
+					header.addClass('header-smooth-anim slideOutUp');
 					setTimeout(function(){
-						header.removeClass('navbar-fixed-top fh5co-animated slideInDown slideOutUp');
-					}, 100 );
+						header.removeClass('navbar-fixed-top header-smooth-anim slideInDown slideOutUp');
+					}, 400 );
 				}
 			} 
-			
 		});
 	};
 
 
 
 	// Animations
-
-	// About Us
-	var aboutAnimate = function() {
-
-		if ( $('#about-us').length > 0 ) {	
-			$('#about-us .to-animate').each(function( k ) {
-				
-				var el = $(this);
-				
-				setTimeout ( function () {
-					el.addClass('fadeInUp animated');
-				},  k * 200, 'easeInOutExpo' );
-				
-			});
-		}
-
-	};
-	var aboutWayPoint = function() {
-
-		if ( $('#about-us').length > 0 ) {
-			$('#about-us').waypoint( function( direction ) {
-										
-				if( direction === 'down' && !$(this).hasClass('animated') ) {
-
-
-					setTimeout(aboutAnimate, 200);
-
-					
-					$(this.element).addClass('animated');
-						
-				}
-			} , { offset: '95%' } );
-		}
-
-	};
-
-	// Team
-	var teamAnimate = function() {
-
-		if ( $('#team').length > 0 ) {	
-			$('#team .to-animate').each(function( k ) {
-				
-				var el = $(this);
-				
-				setTimeout ( function () {
-					el.addClass('fadeInUp animated');
-				},  k * 200, 'easeInOutExpo' );
-				
-			});
-		}
-
-	};
-	var teamWayPoint = function() {
-
-		if ( $('#team').length > 0 ) {
-			$('#team').waypoint( function( direction ) {
-										
-				if( direction === 'down' && !$(this).hasClass('animated') ) {
-
-
-					setTimeout(teamAnimate, 200);
-
-					
-					$(this.element).addClass('animated');
-						
-				}
-			} , { offset: '95%' } );
-		}
-
-	};
 
 	// Services
 	var servicesAnimate = function() {
@@ -287,118 +179,6 @@
 	};
 
 
-	// testimonials
-	var testimonialsAnimate = function() {
-
-		if ( $('#fh5co-testimonials').length > 0 ) {	
-			$('#fh5co-testimonials .to-animate').each(function( k ) {
-				
-				var el = $(this);
-				
-				setTimeout ( function () {
-					el.addClass('fadeInUp animated');
-				},  k * 200, 'easeInOutExpo' );
-				
-			});
-		}
-
-	};
-	var testimonialsWayPoint = function() {
-
-		if ( $('#fh5co-testimonials').length > 0 ) {
-			$('#fh5co-testimonials').waypoint( function( direction ) {
-										
-				
-					setTimeout(testimonialsAnimate, 200);
-					
-					
-					$(this.element).addClass('animated');
-						
-			
-			} , { offset: '95%' } );
-		}
-
-	};
-
-	// Pricing
-	var pricingAnimate = function() {
-
-		if ( $('#fh5co-pricing').length > 0 ) {	
-			$('#fh5co-pricing .to-animate').each(function( k ) {
-				
-				var el = $(this);
-				
-				setTimeout ( function () {
-					el.addClass('fadeInUp animated');
-				},  k * 200, 'easeInOutExpo' );
-				
-			});
-		}
-
-	};
-	var pricingWayPoint = function() {
-
-		if ( $('#fh5co-pricing').length > 0 ) {
-			$('#fh5co-pricing').waypoint( function( direction ) {
-										
-					setTimeout(function(){
-						$('.animate-pricing-1').addClass('animated fadeIn');
-					}, 200);
-					setTimeout(function(){
-						$('.animate-pricing-2').addClass('animated fadeIn');
-					}, 300);
-					setTimeout(pricingAnimate, 700);
-					
-					
-					$(this.element).addClass('animated');
-						
-			
-			} , { offset: '95%' } );
-		}
-
-	};
-
-	// Pricing
-	var pressAnimate = function() {
-
-		if ( $('#fh5co-press').length > 0 ) {	
-			$('#fh5co-press .to-animate').each(function( k ) {
-				
-				var el = $(this);
-				
-				setTimeout ( function () {
-					el.addClass('fadeInUp animated');
-				},  k * 200, 'easeInOutExpo' );
-				
-			});
-		}
-
-	};
-	var pressWayPoint = function() {
-
-		if ( $('#fh5co-press').length > 0 ) {
-			$('#fh5co-press').waypoint( function( direction ) {
-										
-					setTimeout(function(){
-						$('.animate-press-1').addClass('animated fadeIn');
-					}, 200);
-					setTimeout(function(){
-						$('.animate-press-2').addClass('animated fadeIn');
-					}, 300);
-					setTimeout(pressAnimate, 700);
-					
-					
-					$(this.element).addClass('animated');
-						
-			
-			} , { offset: '95%' } );
-		}
-
-	};
-
-
-	
-	
 
 	// Document on load.
 	$(function(){
@@ -408,14 +188,8 @@
 		windowScroll();
 		navigationSection();
 
-		aboutWayPoint();
-		teamWayPoint();
 		servicesWayPoint();
 		featuresWayPoint();
-		testimonialsWayPoint();
-		pricingWayPoint();
-		pressWayPoint();
-
 	});
 
 

@@ -3,11 +3,8 @@ import "../assets/sass/blue.scss";
 
 const Base = ({children}) => (
     <div>
-
-
         { /* child component will be rendered here */ }
         {children}
-
     </div>
 );
 
@@ -16,5 +13,3 @@ Base.propTypes = {
 };
 
 export default Base;
-
-

@@ -1,7 +1,17 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+require("babel-polyfill");
+
 module.exports = {
-    entry: './index.js',
+    entry: [
+        // Set up an ES6-ish environment
+        'babel-polyfill',
+
+        // Add your application's scripts below
+        './index.js',
+    ],
+
+    //entry: './index.js',
 
     output: {
         filename: 'bundle.js',
@@ -21,7 +31,8 @@ module.exports = {
                 exclude: /node_modules/,
                 loader: 'babel',
                 query: {
-                    presets: ["react", "es2015"]
+                    plugins: ["transform-decorators-legacy"],
+                    presets: ["react", "es2015", "stage-1"]
                 }
             },
             {

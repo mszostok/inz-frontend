@@ -1,60 +1,64 @@
-import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
-import { Card, CardText } from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
-import '../assets/sass/blue.scss'
+import React, {PropTypes, Component} from "react";
+import {Link} from "react-router";
+import {observer} from "mobx-react";
+import {Card, CardText} from "material-ui/Card";
+import RaisedButton from "material-ui/RaisedButton";
+import TextField from "material-ui/TextField";
+import "../assets/sass/blue.scss";
 
-const LoginForm = ({
-  onSubmit,
-  onChange,
-  errors,
-  successMessage,
-  user
-}) => (
-  <Card className="login-form">
-    <form action="/" onSubmit={onSubmit}>
-      <h2 className="card-heading">Login</h2>
+@observer
+export default class LoginForm extends Component {
+    constructor(props) {
+        super(props);
+        this.updateProperty = this.updateProperty.bind(this)
+    }
 
-      {successMessage && <p className="success-message">{successMessage}</p>}
-      {errors.summary && <p className="error-message">{errors.summary}</p>}
+    updateProperty(key, value) {
+        this.props.user[key.target.name] = value
+    }
 
-      <div className="field-line">
-        <TextField
-          floatingLabelText="Email"
-          name="email"
-          errorText={errors.email}
-          onChange={onChange}
-          value={user.email}
-        />
-      </div>
+    render() {
+        const {user, submitForm, error} = this.props;
+        return (
+            <Card className="login-form">
+                <form onSubmit={submitForm}>
+                    <h2 className="card-heading">Login</h2>
 
-      <div className="field-line">
-        <TextField
-          floatingLabelText="Password"
-          type="password"
-          name="password"
-          onChange={onChange}
-          errorText={errors.password}
-          value={user.password}
-        />
-      </div>
+                    {error.summary && <p className="error-message">{error.summary}</p>}
 
-      <div className="button-line">
-        <RaisedButton type="submit" label="Log in" primary />
-      </div>
+                    <div className="field-line">
+                        <TextField
+                            floatingLabelText="Email"
+                            name="email"
+                            onChange={this.updateProperty}
+                            value={user.email}
+                        />
+                    </div>
 
-      <CardText>Don't have an account? <Link to={'/signup'}>Create one</Link>.</CardText>
-    </form>
-  </Card>
-);
+                    <div className="field-line">
+                        <TextField
+                            floatingLabelText="Password"
+                            type="password"
+                            name="password"
+                            onChange={this.updateProperty}
+                            value={user.password}
+                        />
+                    </div>
+
+                    <div className="button-line">
+                        <RaisedButton type="submit" label="Log in" primary/>
+                    </div>
+                    <CardText>Don't have an account? <Link to={'/signup'}>Create one</Link>.</CardText>
+                </form>
+            </Card>
+        )
+    }
+}
 
 LoginForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
-  successMessage: PropTypes.string.isRequired,
-  user: PropTypes.object.isRequired
+    submitForm: PropTypes.func.isRequired,
+    user: PropTypes.shape({
+        email: PropTypes.string,
+        password: PropTypes.string
+    })
 };
-
-export default LoginForm;
