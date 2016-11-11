@@ -1,6 +1,28 @@
 @import '../libs/variable.scss';
 @import '../bootstrap/variables';
 
+@media screen and (max-width: $screen-sm) {
+  .sidebar {
+    display: none;
+  }
+  .hidden-for-width {
+    margin-left: 20px;
+    display: block !important;
+  }
+  a:not(.btn) {
+    color: #9A9A9A;
+  }
+  .active {
+    color: #00bcd4 !important;
+  }
+  .main-panel {
+    width: 100%;
+  }
+}
+
+.hidden-for-width {
+  display: none;
+}
 
 // Burger Menu
 .nav-toggle {

@@ -1,5 +1,5 @@
-import React, {PropTypes} from 'react';
-import {Link} from 'react-router';
+import React, {PropTypes} from "react";
+import {Link} from "react-router";
 
 
 const Home = ({children}) => (
@@ -45,17 +45,40 @@ const Home = ({children}) => (
         <div className="main-panel">
             <nav className="navbar navbar-default navbar-fixed">
 
-                    <nav className="navbar navbar-default">
-                        <div className="navbar-header">
-                            <a href="#" className="js-burger-nav-toggle nav-toggle" data-toggle="collapse"
-                               data-target="#navbar" aria-expanded="false" aria-controls="navbar"><i></i></a>
-                        </div>
-                        <div id="navbar" className="navbar-collapse collapse">
-                            <ul className="nav navbar-nav navbar-right">
-                                <li><Link to="/logout"><span>Log out</span></Link></li>
-                            </ul>
-                        </div>
-                    </nav>
+                <nav className="navbar navbar-default">
+                    <div className="navbar-header">
+                        <a href="#" className="js-burger-nav-toggle nav-toggle" data-toggle="collapse"
+                           data-target="#navbar" aria-expanded="false" aria-controls="navbar"><i></i></a>
+                        <a className="navbar-brand hidden-for-width" href=""><b>Alpha</b>version</a>
+                    </div>
+                    <div id="navbar" className="navbar-collapse collapse">
+                        <ul className="nav navbar-nav navbar-right">
+                            <div className="hidden-for-width">
+                                <li>
+                                    <Link activeClassName="active" to="/dashboard" data-toggle="collapse" data-target="#navbar">
+                                        <p>Dashboard</p>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/profile" data-toggle="collapse" data-target="#navbar">
+                                        <p>User Profile</p>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link activeClassName="active" to="/notifications" data-toggle="collapse" data-target="#navbar">
+                                        <p>Notifications</p>
+                                    </Link>
+                                </li>
+                                <li className="active-pro">
+                                    <Link to="/upgrade">
+                                        <p>About</p>
+                                    </Link>
+                                </li>
+                            </div>
+                            <li><Link to="/logout"><span>Log out</span></Link></li>
+                        </ul>
+                    </div>
+                </nav>
             </nav>
 
             {children}
