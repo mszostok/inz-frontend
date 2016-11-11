@@ -42,7 +42,12 @@ module.exports = {
                 //     'css?sourceMap!sass?sourceMap'
                 // )
                 loader: 'style!css?sourceMap!sass?sourceMap'
-            }
+            },
+
+            {
+                test: /\.(jpg|png)$/,
+                loader: 'url-loader?limit=10000'
+            },
         ],
 
     },
@@ -53,4 +58,4 @@ module.exports = {
     plugins: [
         new ExtractTextPlugin('css/style.css') //[name]
     ],
-}
+};

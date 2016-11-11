@@ -1,5 +1,4 @@
 import React, {PropTypes} from "react";
-import "../assets/sass/blue.scss";
 
 const Base = ({children}) => (
     <div>

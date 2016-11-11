@@ -1,110 +1,91 @@
-import React, { PropTypes } from 'react';
-import SignUpForm from '../components/SignUpForm.jsx';
+import React, {PropTypes} from "react";
+import SignUpForm from "../components/SignUpForm.jsx";
+import {observable} from "mobx";
 
 
 class SignUpPage extends React.Component {
 
-  /**
-   * Class constructor.
-   */
-  constructor(props, context) {
-    super(props, context);
+    constructor(props, context) {
+        super(props, context);
 
-    // set the initial component state
-    this.state = {
-      errors: {},
-      user: {
-        email: '',
-        name: '',
-        password: ''
-      }
-    };
-
-    this.processForm = this.processForm.bind(this);
-    this.changeUser = this.changeUser.bind(this);
-  }
-
-  /**
-   * Process the form.
-   *
-   * @param {object} event - the JavaScript event object
-   */
-  processForm(event) {
-    // prevent default action. in this case, action is the form submission event
-    event.preventDefault();
-
-    // create a string for an HTTP body message
-    const name = encodeURIComponent(this.state.user.name);
-    const email = encodeURIComponent(this.state.user.email);
-    const password = encodeURIComponent(this.state.user.password);
-    const formData = `name=${name}&email=${email}&password=${password}`;
-
-    // create an AJAX request
-    const xhr = new XMLHttpRequest();
-    xhr.open('post', '/auth/signup');
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.responseType = 'json';
-    xhr.addEventListener('load', () => {
-      if (xhr.status === 200) {
-        // success
-
-        // change the component-container state
-        this.setState({
-          errors: {}
+        this.user = observable({
+            email: '',
+            name: '',
+            password: ''
+        });
+        this.error = observable({
+            summary: '',
         });
 
-        // set a message
-        localStorage.setItem('successMessage', xhr.response.message);
-
-        // make a redirect
-        this.context.router.replace('/login');
-      } else {
-        // failure
-
-        const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
-
-        this.setState({
-          errors
+        this.message = observable({
+            summary: '',
         });
-      }
-    });
-    xhr.send(formData);
-  }
+        this.submitForm = this.submitForm.bind(this);
+    }
 
-  /**
-   * Change the user object.
-   *
-   * @param {object} event - the JavaScript event object
-   */
-  changeUser(event) {
-    const field = event.target.name;
-    const user = this.state.user;
-    user[field] = event.target.value;
+    clearUserDataForm() {
+        this.user.email = '';
+        this.user.name = '';
+        this.user.password = '';
+    }
 
-    this.setState({
-      user
-    });
-  }
+    submitForm(event) {
+        event.preventDefault();
+        var self = this;
+        var loginReq = new Request('http://localhost:8081/api/register', {
+            method: 'POST',
+            headers: new Headers({
+                "Content-Type": "application/json",
+            }),
+            body: JSON.stringify({
+                username: this.user.name,
+                email: this.user.email,
+                password: this.user.password,
+            })
+        });
 
-  /**
-   * Render the component.
-   */
-  render() {
-    return (
-      <SignUpForm
-        onSubmit={this.processForm}
-        onChange={this.changeUser}
-        errors={this.state.errors}
-        user={this.state.user}
-      />
-    );
-  }
+        console.log("tuu");
+
+        fetch(loginReq)
+            .then(response => {
+                    if (response.status !== 201) {
+                        console.log('unexpected response status: ' + response.status);
+                        response.json()
+                            .then(function (data) {
+                                console.log("data: ", data);
+                                self.error.summary = data.message;
+                                self.message.summary = null;
+                            });
+                        return;
+                    }
+
+                    //this.context.router.replace('/login');
+                    self.message.summary = "Successful!";
+                    self.error.summary = null;
+                    self.clearUserDataForm();
+                }
+            )
+            .catch(reason => {
+                console.log('while perform sing up: ', reason);
+                self.error.summary = "Service unavailable";
+            });
+    }
+
+    render() {
+        return (
+            <SignUpForm
+                submitForm={this.submitForm}
+                user={this.user}
+                error={this.error}
+                message={this.message}
+            />
+        );
+    }
 
 }
 
 SignUpPage.contextTypes = {
-  router: PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
 };
 
 export default SignUpPage;

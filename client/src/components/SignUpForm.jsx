@@ -1,68 +1,78 @@
-import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
-import { Card, CardText } from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
+import React, {PropTypes, Component} from "react";
+import {Link} from "react-router";
+import {observer} from "mobx-react";
+import {Card, CardText} from "material-ui/Card";
+import RaisedButton from "material-ui/RaisedButton";
+import TextField from "material-ui/TextField";
+import '../assets/sass/light-bootstrap-dashboard.scss'
 
 
-const SignUpForm = ({
-  onSubmit,
-  onChange,
-  errors,
-  user,
-}) => (
-  <Card className="login-form">
-    <form action="/" onSubmit={onSubmit}>
-      <h2 className="card-heading">Sign Up</h2>
+@observer
+export default class SignUpForm extends Component {
+    constructor(props) {
+        super(props);
+        this.updateProperty = this.updateProperty.bind(this)
+    }
 
-      {errors.summary && <p className="error-message">{errors.summary}</p>}
+    updateProperty(key, value) {
+        this.props.user[key.target.name] = value
+    }
 
-      <div className="field-line">
-        <TextField
-          floatingLabelText="Name"
-          name="name"
-          errorText={errors.name}
-          onChange={onChange}
-          value={user.name}
-        />
-      </div>
+    render() {
+        const {user, submitForm, error, message} = this.props;
+        return (
+            <Card className="login-form">
+                <form action="/" onSubmit={submitForm}>
+                    <h2 className="card-heading">Sign Up</h2>
 
-      <div className="field-line">
-        <TextField
-          floatingLabelText="Email"
-          name="email"
-          errorText={errors.email}
-          onChange={onChange}
-          value={user.email}
-        />
-      </div>
+                    {error.summary && <div className="alert alert-danger" role="alert">{error.summary}</div>}
 
-      <div className="field-line">
-        <TextField
-          floatingLabelText="Password"
-          type="password"
-          name="password"
-          onChange={onChange}
-          errorText={errors.password}
-          value={user.password}
-        />
-      </div>
 
-      <div className="button-line">
-        <RaisedButton type="submit" label="Create New Account" primary />
-      </div>
+                    <div className="field-line">
+                        <TextField
+                            floatingLabelText="Name"
+                            name="name"
+                            onChange={this.updateProperty}
+                            value={user.name}
+                        />
+                    </div>
 
-      <CardText>Already have an account? <Link to={'/login'}>Log in</Link></CardText>
-    </form>
-  </Card>
-);
+                    <div className="field-line">
+                        <TextField
+                            floatingLabelText="Email"
+                            name="email"
+                            onChange={this.updateProperty}
+                            value={user.email}
+                        />
+                    </div>
+
+                    <div className="field-line">
+                        <TextField
+                            floatingLabelText="Password"
+                            type="password"
+                            name="password"
+                            onChange={this.updateProperty}
+                            value={user.password}
+                        />
+                    </div>
+
+                    <div className="button-line">
+                        <RaisedButton type="submit" label="Create New Account" primary/>
+                    </div>
+
+                    <CardText>Already have an account? <Link to={'/login'}>Log in</Link></CardText>
+                </form>
+            </Card>
+        );
+    }
+}
 
 SignUpForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
+    submitForm: PropTypes.func.isRequired,
+    user: PropTypes.shape({
+        email: PropTypes.string,
+        password: PropTypes.string,
+        username: PropTypes.string,
+    })
 };
-
-export default SignUpForm;
 

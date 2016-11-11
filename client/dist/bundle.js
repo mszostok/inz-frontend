@@ -40965,7 +40965,7 @@
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(_SignUpForm2.default, {
-	        onSubmit: this.processForm,
+	        onSubmit: this.submitForm,
 	        onChange: this.changeUser,
 	        errors: this.state.errors,
 	        user: this.state.user

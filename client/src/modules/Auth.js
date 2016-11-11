@@ -22,7 +22,6 @@ class Auth {
                 pathname: '/login',
                 state: {nextPathname: nextState.location.pathname}
             });
-            console.log('jaa')
         }
     }
 
@@ -36,7 +35,7 @@ class Auth {
             return
         }
 
-        var loginReq = new Request('http://localhost:8081/b1/auth/login', {
+        var loginReq = new Request('http://localhost:8081/api/auth/login', {
             method: 'POST',
             headers: new Headers({
                 "Content-Type": "application/x-www-form-urlencoded",

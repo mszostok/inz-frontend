@@ -31,8 +31,7 @@ export default class LoginForm extends Component {
                             floatingLabelText="Email"
                             name="email"
                             onChange={this.updateProperty}
-                            value={user.email}
-                        />
+                            value={user.email}/>
                     </div>
 
                     <div className="field-line">
@@ -41,8 +40,7 @@ export default class LoginForm extends Component {
                             type="password"
                             name="password"
                             onChange={this.updateProperty}
-                            value={user.password}
-                        />
+                            value={user.password}/>
                     </div>
 
                     <div className="button-line">

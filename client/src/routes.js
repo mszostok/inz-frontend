@@ -1,6 +1,9 @@
 import Base from "./components/Base.jsx";
 import Landing from "./components/Landing";
+import Home from "./components/Home";
+import Dashboard from "./components/Dashboard";
 import EntryForm from "./components/EntryForm";
+import ProfilePage from "./containers/ProfilePage";
 import LoginPage from "./containers/LoginPage";
 import SignUpPage from "./containers/SignUpPage";
 import Auth from "./modules/Auth";
@@ -11,20 +14,31 @@ const routes = {
     path: '/',
     component: Base,
     indexRoute: {
+        onEnter: (nextState, replace) => {
+            if (Auth.isUserAuthenticated()) {
+                replace('/dashboard');
+
+            }
+        },
         component: Landing
     },
     childRoutes: [
         {
             onEnter: Auth.redirectToLogin,
+            component: Home,
             childRoutes: [
-                // Protected routes
                 {
-                    path: '/user/:id',
-                    component: SignUpPage,
+                    path: '/dashboard',
+                    component: Dashboard,
+                },
+                {
+                    path: '/profile',
+                    component: ProfilePage,
                 }
-                // ...
+
             ]
         },
+
         {
             path: '/logout',
             onEnter: (nextState, replace) => {

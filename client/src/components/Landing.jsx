@@ -1,6 +1,5 @@
 import React, {PropTypes} from "react";
-import "../assets/sass/blue.scss";
-import { Link } from 'react-router'
+import {Link} from "react-router";
 import Auth from "../modules/Auth";
 
 
@@ -40,10 +39,10 @@ const General = () => (
                     <h5>Portal for data mining competitions</h5>
                 </div>
                 <div className="buttons">
-                    <button className="btn btn-fill btn-neutral">
+                    <Link to="/signup" className="btn btn-fill btn-neutral btn-banner">
                         Sign up
-                    </button>
-                    <button className="btn btn-neutral btn-hover-trans">
+                    </Link>
+                    <button className="btn btn-neutral btn-hover-trans btn-banner">
                         Learn more
                     </button>
                 </div>
@@ -74,7 +73,8 @@ const General = () => (
                                     <p>Far far away, behind the word mountains, far from the countries Vokalia and
                                         Consonantia,
                                         there
-                                        live the blind texts. Separated they live in Bookmarksgrove right at the coast of
+                                        live the blind texts. Separated they live in Bookmarksgrove right at the coast
+                                        of
                                         the
                                         Semantics,
                                         a large language ocean.</p>
@@ -90,7 +90,8 @@ const General = () => (
                             </div>
                             <div className="col-md-4">
                                 <div className="box ">
-                                    <div className="icon colored-2"><span><i className="icon-screen-desktop"></i></span></div>
+                                    <div className="icon colored-2"><span><i className="icon-screen-desktop"></i></span>
+                                    </div>
                                     <h3>Fully responsive</h3>
                                     <p>Far far away, behind the word mountains, far from the countries Vokalia and
                                         Consonantia,
@@ -103,7 +104,8 @@ const General = () => (
                                     <p>Far far away, behind the word mountains, far from the countries Vokalia and
                                         Consonantia,
                                         there
-                                        live the blind texts. Separated they live in Bookmarksgrove right at the coast of
+                                        live the blind texts. Separated they live in Bookmarksgrove right at the coast
+                                        of
                                         the
                                         Semantics,
                                         a large language ocean.</p>
@@ -116,7 +118,8 @@ const General = () => (
                                     <p>Far far away, behind the word mountains, far from the countries Vokalia and
                                         Consonantia,
                                         there
-                                        live the blind texts. Separated they live in Bookmarksgrove right at the coast of
+                                        live the blind texts. Separated they live in Bookmarksgrove right at the coast
+                                        of
                                         the
                                         Semantics,
                                         a large language ocean.</p>
@@ -217,7 +220,7 @@ const General = () => (
                         </div>
                         <div className="row">
                             <div className="col-md-4 col-md-offset-4 single-animate animate-features-3">
-                                <a href="#" className="btn btn-primary btn-block">Learn More</a>
+                                <a href="#" className="btn btn-primary btn-block btn-banner">Learn More</a>
                             </div>
                         </div>
                     </div>
@@ -238,7 +241,6 @@ const General = () => (
 
     </div>
 );
-
 
 
 export default General;

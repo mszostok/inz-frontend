@@ -1,5 +1,35 @@
 /*     General overwrite     */
-.btn {
+.btn-banner {
+
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  @include transition(.3s);
+  &.btn-primary {
+    background: $brand-primary;
+    color: $brand-white;
+    border: none !important;
+    border: 2px solid transparent !important;
+    &:hover, &:active, &:focus {
+      box-shadow: none;
+      background: $brand-primary;
+    }
+  }
+  &:hover, &:active, &:focus {
+    color: $brand-white;
+    outline: none !important;
+  }
+  &.btn-default {
+    &:hover, &:focus, &:active {
+      border-color: transparent;
+    }
+  }
+
+  &.btn-hover-trans {
+    &:hover {
+      background: rgba(0, 0, 0, 0.3);
+    }
+  }
+
   border-width: 1px;
   background-color: transparent;
   font-weight: 400;
