@@ -12,6 +12,66 @@
 *
 * ======================================================= */
 
+.nav {
+  &-box {
+    text-align: center;
+    vertical-align: top;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    .btn {
+      border-width: 0px;
+    }
+  }
+  &-left {
+    vertical-align: top;
+    text-align: left !important;
+    color: #888888;
+    text-transform: uppercase;
+
+  }
+
+  &-center {
+    vertical-align: top;
+    text-align: center;
+  }
+
+  &-right {
+    vertical-align: top;
+    text-align: right !important;
+    color: #888888;
+    text-transform: uppercase;
+  }
+  &-comp-active {
+    color: #FF9500 !important;
+  }
+}
+
+.btn-next {
+  color: #FF9500;
+}
+
+.nav-background {
+  background-color: rgba(238, 238, 238, 0.16);
+}
+
+.sidebar-competition {
+  float: right;
+}
+
+.tiny-border {
+  border: 1px solid #E3E3E3;
+  border-radius: 2px;
+}
+
+/* centered columns styles */
+.upload {
+  width: 100%;
+  border: 1px dashed;
+  height: 60px;
+  text-align: center;
+  padding-top: 15px;
+}
+
 .login-form {
   margin: 150px auto;
   padding: 5px 0;
@@ -22,6 +82,7 @@
 
 // Template Base
 body {
+  background: rgba(203, 203, 210, 0.15) !important;
   font-family: $font-primary;
   font-weight: 400;
   font-size: 16px;
@@ -425,7 +486,6 @@ h1, h2, h3, h4, h5, h6 {
     padding-bottom: 0;
   }
 }
-
 
 // Components
 .js .to-animate,

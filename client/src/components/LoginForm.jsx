@@ -10,12 +10,11 @@ import "../assets/sass/blue.scss";
 export default class LoginForm extends Component {
     constructor(props) {
         super(props);
-        this.updateProperty = this.updateProperty.bind(this)
     }
 
-    updateProperty(key, value) {
+    updateProperty = (key, value) => {
         this.props.user[key.target.name] = value
-    }
+    };
 
     render() {
         const {user, submitForm, error} = this.props;
@@ -33,7 +32,6 @@ export default class LoginForm extends Component {
                             onChange={this.updateProperty}
                             value={user.email}/>
                     </div>
-
                     <div className="field-line">
                         <TextField
                             floatingLabelText="Password"

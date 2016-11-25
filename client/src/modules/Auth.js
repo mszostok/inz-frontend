@@ -26,16 +26,13 @@ class Auth {
     }
 
 
-    static login(email, password, cb) {
-        const formData = `username=${email}&password=${password}`;
-        cb = arguments[arguments.length - 1];
-
+    static login(email, password) {
         if (localStorage.token) {
-            if (cb) cb(null);
-            return
+            return Promise.resolve();
         }
 
-        var loginReq = new Request('http://localhost:8081/api/auth/login', {
+        const formData = `username=${email}&password=${password}`;
+        let loginReq = new Request('http://localhost:8081/api/auth/login', {
             method: 'POST',
             headers: new Headers({
                 "Content-Type": "application/x-www-form-urlencoded",
@@ -43,30 +40,29 @@ class Auth {
             body: formData
         });
 
-        fetch(loginReq)
-            .then(response => {
+        return new Promise((resolve, reject) => {
+            fetch(loginReq).then(response => {
                     if (response.status !== 200) {
                         console.log('unexpected response status: ' + response.status);
-                        response.json()
-                            .then(function (data) {
-                                if (cb) cb(data)
-                            });
-                        return;
+                        response.json().then(function (data) {
+                            if (data.error) {
+                                reject(data.error);
+                            } else {
+                                reject(data.message);
+                            }
+                        });
                     }
-
                     response.json().then(function (data) {
                         Auth.authenticateUser(data.token);
+                        resolve();
                     });
-
-                    if (cb) cb(null);
                 }
-            )
-            .catch(reason => {
-                console.log('while perform login: ', reason);
-                if (cb) cb({message: "Service unavailable"});
+            ).catch(reason => {
+                console.log('while do with token ', reason);
+                reject("Service unavailable");
             });
+        });
     }
-
 }
 
 export default Auth;

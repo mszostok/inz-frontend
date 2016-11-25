@@ -11,7 +11,8 @@ injectTapEventPlugin();
 
 render((
     <MuiThemeProvider muiTheme={getMuiTheme()}>
-        <Router history={browserHistory} routes={routes} />
+        {/*<Router history={browserHistory} routes={routes} store={store} />*/}
+        <Router history={browserHistory} routes={routes}  />
     </MuiThemeProvider>
-), document.getElementById('app'))
+), document.getElementById('app'));
 

@@ -6,20 +6,19 @@ import "../assets/sass/light-bootstrap-dashboard.scss";
 export default class Profile extends Component {
     constructor(props) {
         super(props);
-        this.updateProperty = this.updateProperty.bind(this);
     }
 
-    updateProperty(event) {
+    updateProperty = (event) => {
         this.props.data.user[event.target.name] = event.target.value;
-    }
+    };
 
     render() {
-        const {data, submitForm, error, message} = this.props;
+        const {data, submitForm, message} = this.props;
         return (
             <div className="content">
                 <div className="container-fluid">
-                    {error.summary &&
-                    <div className="alert alert-danger fade in"><span><b>Error - </b> {error.summary}</span></div>}
+                    {data.error && data.error.summary &&
+                    <div className="alert alert-danger fade in"><span><b>Error - </b> {data.error.summary}</span></div>}
                     {message.summary &&
                     <div className="alert alert-info fade in"><span><b> Success - </b> {message.summary}</span></div>
                     }
@@ -49,6 +48,7 @@ export default class Profile extends Component {
                                                            className="form-control"
                                                            placeholder="Username"
                                                            name="username"
+                                                           required
                                                            onChange={this.updateProperty}
                                                            value={data.user.username}/>
                                                 </div>
@@ -76,6 +76,31 @@ export default class Profile extends Component {
                                                            name="lastName"
                                                            onChange={this.updateProperty}
                                                            value={data.user.lastName}/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="row">
+                                            <div className="col-md-4">
+                                                <div className="form-group">
+                                                    <label>Education Degree</label>
+                                                    <input type="text"
+                                                           className="form-control"
+                                                           placeholder="Education Degree"
+                                                           name="educationDegree"
+                                                           onChange={this.updateProperty}
+                                                           value={data.user.educationDegree}/>
+                                                </div>
+                                            </div>
+                                            <div className="col-md-8">
+                                                <div className="form-group">
+                                                    <label>University</label>
+                                                    <input type="text"
+                                                           className="form-control"
+                                                           placeholder="University"
+                                                           name="university"
+                                                           onChange={this.updateProperty}
+                                                           value={data.user.university}/>
                                                 </div>
                                             </div>
                                         </div>
@@ -148,15 +173,13 @@ export default class Profile extends Component {
 
                                 </div>
                                 <hr/>
-                                <div className="text-center">
-                                    <button href="#" className="btn btn-simple"><i
-                                        className="fa fa-facebook-square"></i>
-                                    </button>
-                                    <button href="#" className="btn btn-simple"><i className="fa fa-twitter"></i>
-                                    </button>
-                                    <button href="#" className="btn btn-simple"><i
-                                        className="fa fa-google-plus-square"></i>
-                                    </button>
+                                <div className="text-center ">
+                                    <form method="post" action={"mailto:" + data.user.email}>
+                                        <button type="submit" className="btn btn-simple">
+                                            <i className="fa fa-envelope"/>
+                                        </button>
+                                    </form>
+
                                 </div>
                             </div>
                         </div>

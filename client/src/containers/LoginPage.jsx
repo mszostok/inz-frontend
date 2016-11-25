@@ -20,32 +20,27 @@ class LoginPage extends Component {
         this.submitForm = this.submitForm.bind(this);
     }
 
-    submitForm(event) {
+    async submitForm(event) {
         event.preventDefault();
-
-        const email = encodeURIComponent(this.user.email);
-        const password = encodeURIComponent(this.user.password);
-        console.log("email: ", email);
-        Auth.login(email, password, (err) => {
-            if (err) {
-                this.error.summary = err.message;
-                return;
-            }
-
-            const {location} = this.props;
-
-            if (location.state && location.state.nextPathname) {
-                console.log("redirecting to previous location: ", location.state.nextPathname);
-                this.context.router.replace(location.state.nextPathname)
-            } else {
-                this.context.router.replace('/')
-            }
-        });
+        const email = encodeURIComponent(this.user.email),
+            password = encodeURIComponent(this.user.password);
+        try {
+            await Auth.login(email, password);
+            this.redirectToPrevPage();
+        } catch (reason) {
+            this.error.summary = reason;
+        }
     }
 
-    /**
-     * Render the component.
-     */
+    redirectToPrevPage = () => {
+        const {location} = this.props;
+        if (location.state && location.state.nextPathname) {
+            this.context.router.replace(location.state.nextPathname)
+        } else {
+            this.context.router.replace('/dashboard')
+        }
+    };
+
     render() {
         return (
             <LoginForm
