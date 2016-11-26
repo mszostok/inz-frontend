@@ -1,5 +1,5 @@
 import React, {PropTypes, Component} from "react";
-import AppCtx from "../modules/AppCtx";
+import AppCtx from 'AppCtx';
 import {observable} from "mobx";
 import ProfileForm from "../components/ProfileForm";
 

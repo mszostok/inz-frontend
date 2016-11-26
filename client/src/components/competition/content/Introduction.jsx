@@ -1,21 +1,28 @@
 import React, {PropTypes, Component} from "react";
-import {observable} from "mobx";
 import {observer} from "mobx-react";
-import AppCtx from "../../modules/AppCtx";
+import AppCtx from 'AppCtx';
 
-@observer
 export default class Introduction extends Component {
     constructor(props) {
         super(props);
 
-        this.data = observable({
+        this.state = {
                 introduction: {},
                 error: '',
-            }
-        )
+            };
     }
 
     componentDidMount() {
+        if (this.props.preview) {
+            this.setState({
+                error: null,
+                introduction: {
+                    text: this.props.preview.introductionDescription,
+                },
+            });
+            return;
+        }
+
         const id = this.props.params.id;
         let self = this,
             loginReq = new Request('http://localhost:8081/api/competitions/' + id + '/description/introduction', {
@@ -26,20 +33,30 @@ export default class Introduction extends Component {
             if (response.status !== 200) {
                 console.log('unexpected response status: ' + response.status);
                 response.json().then((data) => {
+                    let err;
                     if (data.error) {
-                        self.data.error = data.error;
+                        err = data.error;
                     } else {
-                        self.data.error = data.message;
+                        err = data.message;
                     }
+                    this.setState({
+                        error: err,
+                        introduction: {},
+                    })
                 });
                 return;
             }
             response.json().then((data) => {
-                self.data.introduction = data;
-                self.data.error = null;
+                this.setState({
+                    introduction: data,
+                    error: null,
+                })
             });
         }).catch(reason => {
-            self.data.error = reason;
+            this.setState({
+                error: reason,
+                formula: {},
+            })
         });
     }
 
@@ -51,7 +68,7 @@ export default class Introduction extends Component {
                     <p className="category">Full description about this competition</p>
                 </div>
                 <div className="content">
-                    <div className="content" dangerouslySetInnerHTML={{__html: this.data.introduction.text}}></div>
+                    <div className="content" dangerouslySetInnerHTML={{__html: this.state.introduction.text}}></div>
 
                     <div className="footer">
                         <div className="legend">

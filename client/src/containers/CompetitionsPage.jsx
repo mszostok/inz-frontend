@@ -1,7 +1,7 @@
 import React, {PropTypes, Component} from "react";
 import {observable} from "mobx";
 import {observer} from "mobx-react";
-import AppCtx from "../modules/AppCtx";
+import AppCtx from 'AppCtx';
 
 @observer
 export default class Competitions extends Component {

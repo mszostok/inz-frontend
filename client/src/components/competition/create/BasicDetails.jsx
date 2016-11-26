@@ -114,7 +114,7 @@ export default class BasicDetails extends Component {
                                                                required
                                                                name="name"
                                                                onChange={this.updateProperty}
-                                                               value={data.competition.name}/>
+                                                               value={data.competition.name || ""}/>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-2 col-md-offset-1">
@@ -124,7 +124,7 @@ export default class BasicDetails extends Component {
                                                             name="startDate"
                                                             minDate={new Date()}
                                                             textFieldStyle={{width: '100%'}}
-                                                            value={this.props.data.competition.startDate || this.default.startDate()}
+                                                            value={data.competition.startDate || this.default.startDate()}
                                                             onChange={this.handleStartDate}
                                                         />
                                                     </div>
@@ -136,7 +136,7 @@ export default class BasicDetails extends Component {
                                                             name="endDate"
                                                             minDate={new Date()}
                                                             textFieldStyle={{width: '100%'}}
-                                                            value={this.props.data.competition.endDate || this.default.endDate()}
+                                                            value={data.competition.endDate || this.default.endDate()}
                                                             onChange={this.handleEndDate}
                                                         />
                                                     </div>

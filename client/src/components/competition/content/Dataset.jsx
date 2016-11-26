@@ -1,25 +1,28 @@
 import React, {PropTypes, Component} from "react";
-import {observable} from "mobx";
-import {observer} from "mobx-react";
 import download from "downloadjs";
-import AppCtx from "../../modules/AppCtx";
+import AppCtx from "AppCtx";
 
 
-@observer
 export default  class Dataset extends Component {
     constructor(props, context) {
         super(props, context);
-        this.data = observable({
-                dataset: {},
-                error: '',
-            }
-        )
+        this.state = {
+            dataset: {},
+            error: '',
+        };
     }
 
     downloadFile = (event) => {
+        if (this.props.preview) {
+            this.setState({
+                error: "It's only preview mode, you will be able download this file after saving competition",
+                dataset: {},
+            });
+            return;
+        }
         const id = this.props.params.id;
-        let type = event.target.name ? event.target.name : event.target.parentNode.name;
-        let self = this,
+        let type = event.target.name ? event.target.name : event.target.parentNode.name,
+            self = this,
             loginReq = new Request('http://localhost:8081/api/competitions/' + id + '/dataset/' + type, {
                 method: 'GET',
             });
@@ -27,11 +30,16 @@ export default  class Dataset extends Component {
         AppCtx.doWithToken(self.context, loginReq, "/competition/" + id + "/dataset").then(response => {
             if (response.status !== 200) {
                 response.json().then((data) => {
+                    let err;
                     if (data.error) {
-                        self.data.error = data.error;
+                        err = data.error;
                     } else {
-                        self.data.error = data.message;
+                        err = data.message;
                     }
+                    this.setState({
+                        error: err,
+                        dataset: {},
+                    })
                 });
                 return null;
             }
@@ -41,11 +49,24 @@ export default  class Dataset extends Component {
                 download(blob, type + ".csv");
             }
         }).catch(reason => {
-            self.data.error = reason;
+            this.setState({
+                error: reason,
+                formula: {},
+            })
         });
     };
 
     componentDidMount() {
+        if (this.props.preview) {
+            this.setState({
+                error: null,
+                dataset: {
+                    text: this.props.preview.datasetDescription,
+                },
+            });
+            return;
+        }
+
         const id = this.props.params.id;
         let self = this,
             loginReq = new Request('http://localhost:8081/api/competitions/' + id + '/description/dataset', {
@@ -55,21 +76,31 @@ export default  class Dataset extends Component {
         AppCtx.doWithToken(self.context, loginReq, "/competition/" + id + "/dataset").then((response) => {
             if (response.status !== 200) {
                 console.log('unexpected response status: ' + response.status);
-                response.json().then(function (data) {
+                response.json().then(data => {
+                    let err;
                     if (data.error) {
-                        self.data.error = data.error;
+                        err = data.error;
                     } else {
-                        self.data.error = data.message;
+                        err = data.message;
                     }
+                    this.setState({
+                        error: err,
+                        dataset: {},
+                    })
                 });
                 return;
             }
-            response.json().then(function (data) {
-                self.data.dataset = data;
-                self.data.error = null;
+            response.json().then(data => {
+                this.setState({
+                    dataset: data,
+                    error: null,
+                })
             });
         }).catch((reason) => {
-            console.log(reason);
+            this.setState({
+                error: reason,
+                formula: {},
+            })
         });
     }
 
@@ -84,13 +115,13 @@ export default  class Dataset extends Component {
                     </div>
 
                     <div className="content">
-                        {this.data.error &&
+                        {this.state.error &&
                         <div className="content">
-                            <div className="alert alert-danger fade in"><span><b>Error - </b> {this.data.error}</span>
+                            <div className="alert alert-danger fade in"><span><b>Error - </b> {this.state.error}</span>
                             </div>
                         </div>
                         }
-                        <div className="content" dangerouslySetInnerHTML={{__html: this.data.dataset.text}}></div>
+                        <div className="content" dangerouslySetInnerHTML={{__html: this.state.dataset.text}}></div>
                         <div className="row row-centered" style={{textAlign: "center"}}>
                             <div className="col-md-6 col-centered">
                                 <button name="testing" className="btn" style={{borderWidth: "0px"}}

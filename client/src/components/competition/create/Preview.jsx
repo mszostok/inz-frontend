@@ -1,5 +1,6 @@
 import React, {PropTypes, Component} from "react";
-import AppCtx from "../../../modules/AppCtx";
+import AppCtx from "AppCtx";
+import Layout from "../PreviewLayout";
 
 export default class Preview extends Component {
     constructor(props, context) {
@@ -77,7 +78,7 @@ export default class Preview extends Component {
                                             </button>
                                         </div>
                                         <div className="col-md-4 nav-center col-sm-4 col-xs-4">
-                                            <h4 className="title">Overview</h4>
+                                            <h4 className="title">Overview {this.props.data.competition.name}</h4>
                                         </div>
                                         <div className="col-md-4 nav-right col-sm-4 col-xs-4">
                                             <button className="btn btn-next" onClick={this.sendCompetition}>
@@ -86,10 +87,14 @@ export default class Preview extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <pre>
-                                    {JSON.stringify(data, null, 2)}
-                                </pre>
                             </div>
+                            <Layout
+                                id="11"
+                                competition={this.props.data.competition}
+                                error={null}
+                                children={null}
+                                preview={true}
+                            />
                         </div>
                     </div>
                 </div>

@@ -1,44 +1,60 @@
 import React, {PropTypes, Component} from "react";
-import {observable} from "mobx";
-import {observer} from "mobx-react";
-import AppCtx from "../../modules/AppCtx";
+import AppCtx from "AppCtx";
 
-@observer
 export default class Formula extends Component {
     constructor(props) {
         super(props);
-        this.data = observable({
-                formula: {},
-                error: '',
-            }
-        )
+        this.state = {
+            formula: {},
+            error: null,
+        }
+
     }
 
     componentDidMount() {
-        var self = this;
+        if (this.props.preview) {
+            this.setState({
+                error: null,
+                formula: {
+                    text: this.props.preview.formulaDescription,
+                },
+            });
+            return;
+        }
         const id = this.props.params.id;
-        var loginReq = new Request('http://localhost:8081/api/competitions/' + id + '/description/formula', {
-            method: 'GET',
-        });
+        let self = this,
+            loginReq = new Request('http://localhost:8081/api/competitions/' + id + '/description/formula', {
+                method: 'GET',
+            });
 
         AppCtx.doWithToken(self.context, loginReq, "/competition/" + id + "/formula").then((response) => {
             if (response.status !== 200) {
                 console.log('unexpected response status: ' + response.status);
                 response.json().then((data) => {
-                        if (data.error) {
-                            self.data.error = data.error;
-                        } else {
-                            self.data.error = data.message;
-                        }
-                    });
+                    let err;
+                    if (data.error) {
+                        err = data.error;
+                    } else {
+                        err = data.message;
+                    }
+                    this.setState({
+                        error: err,
+                        formula: {},
+                    })
+                });
                 return;
             }
             response.json().then((data) => {
-                    self.data.formula = data;
-                    self.data.error = null;
-                });
+                this.setState({
+                    formula: data,
+                    error: null,
+                })
+            });
         }).catch(reason => {
-            self.data.error = reason;
+            this.setState({
+                error: reason,
+                formula: {},
+            })
         });
 
     }
@@ -51,7 +67,7 @@ export default class Formula extends Component {
                     <p className="category">Rules etc.</p>
                 </div>
                 <div className="content">
-                    <div className="content" dangerouslySetInnerHTML={{__html: this.data.formula.text}}></div>
+                    <div className="content" dangerouslySetInnerHTML={{__html: this.state.formula.text}}></div>
                     <div className="footer">
                         <div className="legend">
                         </div>

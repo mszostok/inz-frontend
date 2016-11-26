@@ -1,6 +1,6 @@
 import React, {PropTypes, Component} from "react";
 import Dropzone from "react-dropzone";
-import AppCtx from "../../modules/AppCtx";
+import AppCtx from 'AppCtx';
 
 export default  class PostSubmission extends Component {
     constructor(props) {
@@ -18,6 +18,13 @@ export default  class PostSubmission extends Component {
     };
 
     uploadFiles = () => {
+        if (this.props.preview) {
+            this.setState({
+                error: "It's only preview mode, you will be able to upload submission when competition start",
+                dataset: {},
+            });
+            return;
+        }
         let self = this,
             data = new FormData();
         data.append('file', this.state.file);
