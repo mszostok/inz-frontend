@@ -3,7 +3,7 @@ import Auth from "./Auth";
 class AppCtx {
 
     static  doWithToken(context, req, returnPath) {
-        return new Promise((resolve, reject) =>{
+        return new Promise((resolve, reject) => {
             req.headers.set("Authorization", "Bearer " + Auth.getToken());
             fetch(req)
                 .then(response => {
@@ -24,6 +24,8 @@ class AppCtx {
                 });
         })
     }
+
+    static serviceBasePath = "http://localhost:8081/";
 }
 
 export default AppCtx;

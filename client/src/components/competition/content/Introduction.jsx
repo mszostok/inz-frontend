@@ -25,7 +25,7 @@ export default class Introduction extends Component {
 
         const id = this.props.params.id;
         let self = this,
-            loginReq = new Request('http://localhost:8081/api/competitions/' + id + '/description/introduction', {
+            loginReq = new Request(AppCtx.serviceBasePath + 'api/competitions/' + id + '/description/introduction', {
                 method: 'GET',
             });
 
@@ -68,6 +68,12 @@ export default class Introduction extends Component {
                     <p className="category">Full description about this competition</p>
                 </div>
                 <div className="content">
+                    {this.state.error &&
+                    <div className="content">
+                        <div className="alert alert-danger fade in"><span><b>Error - </b> {this.state.error}</span>
+                        </div>
+                    </div>
+                    }
                     <div className="content" dangerouslySetInnerHTML={{__html: this.state.introduction.text}}></div>
 
                     <div className="footer">

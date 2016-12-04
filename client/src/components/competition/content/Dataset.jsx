@@ -23,7 +23,7 @@ export default  class Dataset extends Component {
         const id = this.props.params.id;
         let type = event.target.name ? event.target.name : event.target.parentNode.name,
             self = this,
-            loginReq = new Request('http://localhost:8081/api/competitions/' + id + '/dataset/' + type, {
+            loginReq = new Request(AppCtx.serviceBasePath + '/api/competitions/' + id + '/dataset/' + type, {
                 method: 'GET',
             });
 
@@ -69,7 +69,7 @@ export default  class Dataset extends Component {
 
         const id = this.props.params.id;
         let self = this,
-            loginReq = new Request('http://localhost:8081/api/competitions/' + id + '/description/dataset', {
+            loginReq = new Request(AppCtx.serviceBasePath + '/api/competitions/' + id + '/description/dataset', {
                 method: 'GET',
             });
 

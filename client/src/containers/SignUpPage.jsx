@@ -1,7 +1,7 @@
 import React, {PropTypes} from "react";
 import SignUpForm from "../components/SignUpForm.jsx";
 import {observable} from "mobx";
-
+import AppCtx from '../modules/AppCtx';
 
 class SignUpPage extends React.Component {
 
@@ -32,7 +32,7 @@ class SignUpPage extends React.Component {
     submitForm = (event) => {
         event.preventDefault();
         let self = this,
-            loginReq = new Request('http://localhost:8081/api/register', {
+            loginReq = new Request(AppCtx.serviceBasePath + '/api/register', {
                 method: 'POST',
                 headers: new Headers({
                     "Content-Type": "application/json",

@@ -1,6 +1,6 @@
 import React, {PropTypes, Component} from "react";
 import Dropzone from "react-dropzone";
-import AppCtx from 'AppCtx';
+import AppCtx from "AppCtx";
 
 export default  class PostSubmission extends Component {
     constructor(props) {
@@ -8,6 +8,7 @@ export default  class PostSubmission extends Component {
         this.state = {
             file: null,
             error: null,
+            message: {},
         }
     }
 
@@ -28,28 +29,45 @@ export default  class PostSubmission extends Component {
         let self = this,
             data = new FormData();
         data.append('file', this.state.file);
-        let loginReq = new Request('http://localhost:8081/api/competitions/' + this.props.params.id + "/submission/", {
+        let loginReq = new Request(AppCtx.serviceBasePath + '/api/competitions/' + this.props.params.id + "/submission/", {
             method: 'POST',
             body: data,
         });
 
-        AppCtx.doWithToken(self.context, loginReq, "/create-competition").then((response) => {
-            if (response.status !== 200) {
+        AppCtx.doWithToken(self.context, loginReq, "/competitions/" + this.props.params.id + "/submission/").then((response) => {
+            if (response.status !== 204) {
                 console.log('unexpected response status: ' + response.status);
                 response.json().then((data) => {
                     if (data.error) {
                         this.setState({
                             error: data.error,
+                            message: {
+                                summary: null,
+                            }
                         });
                     } else {
                         this.setState({
                             error: data.message,
+                            message: {
+                                summary: null,
+                            }
                         });
                     }
                 });
+            } else {
+                this.setState({
+                    message: {
+                        summary: "Submission was uploaded successful, now please wait for computing result score"
+                    },
+                    error: null,
+                })
             }
+
         }).catch(reason => {
             this.setState({
+                message: {
+                    summary: null,
+                },
                 error: reason,
             });
         });
@@ -70,6 +88,10 @@ export default  class PostSubmission extends Component {
                             <div className="alert alert-danger fade in">
                                 <span><b>Error - </b> {this.state.error}</span>
                             </div>
+                            }
+                            {this.state.message && this.state.message.summary &&
+                            <div className="alert alert-info fade in">
+                                <span><b> Success - </b> {this.state.message.summary}</span></div>
                             }
                             <div className="form-group">
                                 <label >Solution</label>

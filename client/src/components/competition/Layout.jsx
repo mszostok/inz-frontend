@@ -35,7 +35,7 @@ export default class Layout extends Component {
     };
 
     render() {
-        const {startDate, endDate, author} = this.props.generalInfo;
+        const {startDate, endDate, author, leaderboard} = this.props.generalInfo;
         return (
             <div className="content">
                 {this.props.error ?
@@ -68,7 +68,7 @@ export default class Layout extends Component {
                                     </div>
 
                                     <div className="col-md-12">
-                                        <Leaderboard/>
+                                        <Leaderboard members={leaderboard}/>
                                     </div>
 
                                     <div className="col-md-12">

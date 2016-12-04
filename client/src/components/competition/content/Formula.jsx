@@ -23,7 +23,7 @@ export default class Formula extends Component {
         }
         const id = this.props.params.id;
         let self = this,
-            loginReq = new Request('http://localhost:8081/api/competitions/' + id + '/description/formula', {
+            loginReq = new Request(AppCtx.serviceBasePath + '/api/competitions/' + id + '/description/formula', {
                 method: 'GET',
             });
 
@@ -67,6 +67,12 @@ export default class Formula extends Component {
                     <p className="category">Rules etc.</p>
                 </div>
                 <div className="content">
+                    {this.state.error &&
+                    <div className="content">
+                        <div className="alert alert-danger fade in"><span><b>Error - </b> {this.state.error}</span>
+                        </div>
+                    </div>
+                    }
                     <div className="content" dangerouslySetInnerHTML={{__html: this.state.formula.text}}></div>
                     <div className="footer">
                         <div className="legend">

@@ -4,7 +4,7 @@ import {observer} from "mobx-react";
 import AppCtx from "AppCtx";
 import Layout from "comp-comp/Layout";
 
-@observer
+@observer // todo: probably remove
 export default class Competition extends Component {
     constructor(props, context) {
         super(props, context);
@@ -15,8 +15,9 @@ export default class Competition extends Component {
     }
 
     async componentDidMount() {
+
         const id = this.props.params.id;
-        let generalInfoReq = new Request('http://localhost:8081/api/competitions/' + id + '/general-info', {
+        let generalInfoReq = new Request(AppCtx.serviceBasePath + '/api/competitions/' + id + '/general-info', {
             method: 'GET',
         });
 
@@ -57,3 +58,6 @@ export default class Competition extends Component {
 }
 
 
+Competition.contextTypes = {
+    router: PropTypes.object.isRequired
+};

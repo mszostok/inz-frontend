@@ -9,7 +9,7 @@ export default class Preview extends Component {
 
     sendCompetition = () => {
         let self = this,
-            loginReq = new Request('http://localhost:8081/api/competitions', {
+            loginReq = new Request(AppCtx.serviceBasePath + '/api/competitions', {
                 method: 'POST',
                 headers: new Headers({
                     "Content-Type": "application/json",
@@ -22,18 +22,16 @@ export default class Preview extends Component {
         AppCtx.doWithToken(self.context, loginReq, "/create-competition").then((response) => {
             if (response.status !== 201) {
                 console.log('unexpected response status: ' + response.status);
-                response.json()
-                    .then(function (data) {
+                response.json().then(function (data) {
                         console.log("Err response body: ", data);
                     });
                 return;
             }
-            response.json()
-                .then((data) => {
-                    const id = data.competitionId;
-                    self.uploadFiles(id);
-                    self.context.router.replace("competition/" + id + "/introduction")
-                });
+            response.json().then((data) => {
+                const id = data.competitionId;
+                self.uploadFiles(id);
+                self.context.router.replace("competition/" + id + "/introduction")
+            });
         }).catch((reason) => {
             console.log(reason);
         });
@@ -44,7 +42,7 @@ export default class Preview extends Component {
         ['training', 'testing'].forEach(name => {
             let data = new FormData();
             data.append('file', this.props.data.competition.files[name]);
-            let loginReq = new Request('http://localhost:8081/api/competitions/' + id + "/dataset/" + name, {
+            let loginReq = new Request(AppCtx.serviceBasePath + '/api/competitions/' + id + "/dataset/" + name, {
                 method: 'POST',
                 body: data,
             });
@@ -52,10 +50,9 @@ export default class Preview extends Component {
             AppCtx.doWithToken(self.context, loginReq, "/create-competition").then((response) => {
                 if (response.status !== 201) {
                     console.log('unexpected response status: ' + response.status);
-                    response.json()
-                        .then(function (data) {
-                            console.log("Err response body: ", data);
-                        });
+                    response.json().then(function (data) {
+                        console.log("Err response body: ", data);
+                    });
                 }
             });
         });
@@ -88,6 +85,7 @@ export default class Preview extends Component {
                                     </div>
                                 </div>
                             </div>
+
                             <Layout
                                 id="11"
                                 competition={this.props.data.competition}

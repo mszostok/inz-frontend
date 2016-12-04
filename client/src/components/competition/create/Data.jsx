@@ -1,7 +1,9 @@
 import React, {PropTypes, Component} from "react";
 import {observer} from "mobx-react";
 import Dropzone from "react-dropzone";
-
+import SelectField from "material-ui/SelectField";
+import MenuItem from "material-ui/MenuItem";
+import AppCtx from "AppCtx";
 
 @observer
 export default class Data extends Component {
@@ -11,12 +13,57 @@ export default class Data extends Component {
         this.props.data.competition.files = {};
         this.state = {
             error: "",
+            items: [],
         };
     }
 
-    updateProperty = (event) => {
-        this.props.data.competition[event.target.name] = event.target.value;
+    componentDidMount() {
+        let self = this,
+            loginReq = new Request(AppCtx.serviceBasePath + '/api/competitions/score-functions', {
+                method: 'GET',
+            });
+
+        AppCtx.doWithToken(self.context, loginReq, "/create-competition").then((response) => {
+            if (response.status !== 200) {
+                console.log('unexpected response status: ' + response.status);
+                response.json().then(data => {
+                    let err;
+                    if (data.error) {
+                        err = data.error;
+                    } else {
+                        err = data.message;
+                    }
+                    this.setState({
+                        error: err,
+                        dataset: {},
+                    })
+                });
+                return;
+            }
+            response.json().then(data => {
+                this.createSelectItems(data);
+                this.setState({
+                    error: null,
+                })
+            });
+        }).catch((reason) => {
+            this.setState({
+                error: reason,
+            })
+        });
+    }
+
+    createSelectItems = (scoreFnList) => {
+        let scoreFnItems = scoreFnList.map(elem => {
+            return <MenuItem key={elem.id} value={elem.id} primaryText={elem.name}/>
+        });
+        this.setState({
+            items: scoreFnItems,
+        });
     };
+
+    updateProperty = (event) => this.props.data.competition[event.target.name] = event.target.value;
+
 
     onDropTraining = (files) => {
         this.props.data.competition.files.training = files[0];
@@ -29,6 +76,12 @@ export default class Data extends Component {
     };
 
     nextFormWrapper = () => {
+        if (this.props.data.competition.scoreFnId == undefined) {
+            this.setState({
+                error: "Selecting score function is required",
+            });
+            return;
+        }
         if (this.props.data.competition.files.testing == undefined) {
             this.setState({
                 error: "Uploading testing file is required",
@@ -42,6 +95,11 @@ export default class Data extends Component {
             return;
         }
         this.props.nextForm()
+    };
+
+    handleSelectChange = (event, index, value) => {
+        this.props.data.competition.scoreFnId = value;
+        this.setState({});
     };
 
     render() {
@@ -73,13 +131,25 @@ export default class Data extends Component {
                                 </div>
 
                                 {/* form body */}
-                                <div className="content">
+                                <div className="content" style={{paddingTop: "10px"}}>
                                     <div>
                                         {this.state.error &&
-                                            <div className="alert alert-danger fade in">
-                                                <span><b>Error - </b> {this.state.error}</span>
-                                            </div>
+                                        <div className="alert alert-danger fade in">
+                                            <span><b>Error - </b> {this.state.error}</span>
+                                        </div>
                                         }
+                                        <div className="row ">
+                                            <div className="col-md-12 ">
+                                                <div className="form-group">
+                                                    <SelectField
+                                                        value={data.competition.scoreFnId}
+                                                        onChange={this.handleSelectChange}
+                                                        floatingLabelText="Score function">
+                                                        {this.state.items}
+                                                    </SelectField>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div className="row row-centered">
                                             <div className="col-md-6 col-centered">
                                                 <div className="form-group">

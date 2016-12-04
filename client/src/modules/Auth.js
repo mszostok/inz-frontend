@@ -1,9 +1,15 @@
+import AppCtx from "AppCtx";
+import jwtDecode from "jwt-decode";
+
 class Auth {
 
     static authenticateUser(token) {
         localStorage.setItem('token', token);
     }
 
+    static isAdmin() {
+        return jwtDecode(Auth.getToken()).scopes.includes("ADMIN")
+    }
     static isUserAuthenticated() {
         return localStorage.getItem('token') !== null;
     }
@@ -31,8 +37,8 @@ class Auth {
             return Promise.resolve();
         }
 
-        const formData = `username=${email}&password=${password}`;
-        let loginReq = new Request('http://localhost:8081/api/auth/login', {
+        const formData = `email=${email}&password=${password}`;
+        let loginReq = new Request(AppCtx.serviceBasePath + '/api/auth/login', {
             method: 'POST',
             headers: new Headers({
                 "Content-Type": "application/x-www-form-urlencoded",

@@ -1,7 +1,7 @@
 import Base from "./components/Base.jsx";
 import Landing from "./components/Landing";
 import Home from "./components/Home";
-import Dashboard from "./components/Dashboard";
+import DashboardPage from "./containers/DashboardPage";
 import EntryForm from "./components/EntryForm";
 import Introduction from "./components/competition/content/Introduction";
 import Formula from "./components/competition/content/Formula";
@@ -13,7 +13,10 @@ import LoginPage from "./containers/LoginPage";
 import SignUpPage from "./containers/SignUpPage";
 import CompetitionPage from "./containers/CompetitionPage";
 import CompetitionsPage from "./containers/CompetitionsPage";
+import ManagePage from "./containers/ManagePage";
 import Auth from "./modules/Auth";
+import ManageUsers from "./components/manage/Users";
+import ManageCompetitions from "./components/manage/Competitions";
 
 
 const routes = {
@@ -36,7 +39,7 @@ const routes = {
             childRoutes: [
                 {
                     path: '/dashboard',
-                    component: Dashboard,
+                    component: DashboardPage,
                 },
                 {
                     path: '/profile',
@@ -70,8 +73,19 @@ const routes = {
                             component: PostSubmission,
                         },
                     ]
-                }
-
+                },
+                {
+                    path: '/manage',
+                    component: ManagePage,
+                },
+                {
+                    path: '/manage/users',
+                    component: ManageUsers,
+                },
+                {
+                    path: '/manage/competitions',
+                    component: ManageCompetitions,
+                },
             ]
         },
 
@@ -79,13 +93,12 @@ const routes = {
             path: '/logout',
             onEnter: (nextState, replace) => {
                 Auth.deauthenticateUser();
-                // change the current URL to /
                 replace('/');
             }
         },
         {
             onEnter: (nextState, replace) => {
-                if(Auth.isUserAuthenticated()){
+                if (Auth.isUserAuthenticated()) {
                     replace("/");
                 }
             },

@@ -5,13 +5,22 @@
 @import 'components/banner.scss';
 @import 'components/burger.scss';
 
+
 /* =======================================================
 *
 * 	Template Style 
 *	Edit this section
 *
 * ======================================================= */
+.dropdown-toggle {
+  border-radius: 2px !important;
+  border-color: #ddd;
+  border-width: 1px !important;
+}
 
+.dropdown-menu {
+  border-radius: 0px;
+}
 .nav {
   &-box {
     text-align: center;

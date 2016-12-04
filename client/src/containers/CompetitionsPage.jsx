@@ -1,7 +1,7 @@
 import React, {PropTypes, Component} from "react";
 import {observable} from "mobx";
 import {observer} from "mobx-react";
-import AppCtx from 'AppCtx';
+import AppCtx from "AppCtx";
 
 @observer
 export default class Competitions extends Component {
@@ -19,7 +19,7 @@ export default class Competitions extends Component {
     };
 
     async componentDidMount() {
-        let loginReq = new Request('http://localhost:8081/api/competitions/active', {
+        let loginReq = new Request(AppCtx.serviceBasePath + '/api/competitions/active', {
             method: 'GET',
         });
 
@@ -47,26 +47,27 @@ export default class Competitions extends Component {
 
     renderResultRows() {
         return this.data.competitions.map((competition, index) => {
-            return (
-                //todo: no data
-                <tr data-item={competition.id} key={index} onClick={this.goToCompetition}>
-                    <td data-item={competition.id} width="10px">
-                        <i className="pe-7s-science" style={{fontSize: "2.5em"}}/>
-                    </td>
-                    <td data-item={competition.id} style={{paddingTop: "25px"}}>
-                        <h5 className="title">{competition.name}</h5>
-                        <div className="description">{competition.shortDescription}  </div>
-                        <div className="description author">Author {competition.author}</div>
-                    </td>
-                </tr>
-            );
+            if (competition.id && competition.name && competition.shortDescription) {
+                return (
+                    <tr data-item={competition.id} key={index} onClick={this.goToCompetition}>
+                        <td data-item={competition.id} width="10px">
+                            <i className="pe-7s-science" style={{fontSize: "2.5em"}}/>
+                        </td>
+                        <td data-item={competition.id} style={{paddingTop: "25px"}}>
+                            <h5 className="title">{competition.name}</h5>
+                            <div className="description">{competition.shortDescription}  </div>
+                            <div className="description author">Author {competition.author}</div>
+                        </td>
+                    </tr>
+                );
+            }
         });
     }
 
     render() {
         return (
             <div className="content">
-                <div className="container-fluid">
+                <div className="container-fluid" style={{margin: "0 80px"}}>
                     <div className="row">
                         <div className="col-md-12">
                             <div className="card ">
@@ -74,18 +75,19 @@ export default class Competitions extends Component {
                                     <h4 className="title">Competitions</h4>
                                     <p className="description">List of all active competitions</p>
                                 </div>
+
                                 <div className="content content-table">
-                                    <table className="table  table-hover">
-                                        <tbody>
-                                        {this.data.error ?
-                                            <tr className="alert alert-danger fade in">
-                                                <td><b>Error - </b> {this.data.error}</td>
-                                            </tr>
-                                            :
-                                            this.renderResultRows()
-                                        }
-                                        </tbody>
-                                    </table>
+                                    {this.data.error ?
+                                        <div className="alert alert-danger fade in">
+                                            <span><b>Error - </b> {this.data.error}</span>
+                                        </div>
+                                        :
+                                        <table className="table  table-hover">
+                                            <tbody>
+                                            {this.renderResultRows()}
+                                            </tbody>
+                                        </table>
+                                    }
                                 </div>
                             </div>
                         </div>
