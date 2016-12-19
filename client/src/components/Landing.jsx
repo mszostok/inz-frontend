@@ -15,9 +15,7 @@ const General = () => (
                     </div>
                     <div id="navbar" className="navbar-collapse collapse">
                         <ul className="nav navbar-nav navbar-right">
-                            <li><a href="#" data-nav-section="services"><span>Services</span></a></li>
-                            <li><a href="#" data-nav-section="features"><span>Features</span></a></li>
-
+                            <li><a href="#" data-nav-section="goal"><span>What it is</span></a></li>
                             {Auth.isUserAuthenticated() ? (
                                 <li><Link to="/logout"><span>Logout</span></Link></li>
 
@@ -48,183 +46,48 @@ const General = () => (
                 </div>
             </div>
         </div>
+        <div className="triangle">
+        </div>
 
-        <div className="container-fluid">
-            <div className="row">
-                <div id="fh5co-our-services" data-section="services">
-                    <div className="container">
-                        <div className="row row-bottom-padded-sm">
-                            <div className="col-md-12 section-heading text-center">
-                                <h2 className="">Our Services</h2>
-                                <div className="row">
-                                    <div className="col-md-8 col-md-offset-2 ">
-                                        <h3>Far far away, behind the word mountains, far from the countries Vokalia and
-                                            Consonantia,
-                                            there live the blind texts.</h3>
-                                    </div>
-                                </div>
-                            </div>
+        <div className="container">
+            <div className="row" data-section="goal">
+                <div className="headText">
+                    <div className="headText-headline">What is a goal</div>
+                    <div className="headText-text">
+                        It's a platform which allows you to create and take part of any kind of data mining competition
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-6 col-lg-4">
+                        <div className="homeimage-wrapper"><img src="assets/img/target.png"/></div>
+                        <div className="headText">
+                            <div className="headText-headline">Who is it for</div>
+                            <div className="headText-text"><p>This portal is for all people interested in data mining
+                                competitions.</p><p>
+                                .</p></div>
                         </div>
-                        <div className="row">
-                            <div className="col-md-4">
-                                <div className="box ">
-                                    <div className="icon colored-1"><span><i className="icon-mustache"></i></span></div>
-                                    <h3>100% free</h3>
-                                    <p>Far far away, behind the word mountains, far from the countries Vokalia and
-                                        Consonantia,
-                                        there
-                                        live the blind texts. Separated they live in Bookmarksgrove right at the coast
-                                        of
-                                        the
-                                        Semantics,
-                                        a large language ocean.</p>
-                                </div>
-                                <div className="box to-animate">
-                                    <div className="icon colored-4"><span><i className="icon-heart"></i></span></div>
-                                    <h3>Made with love</h3>
-                                    <p>Far far away, behind the word mountains, far from the countries Vokalia and
-                                        Consonantia,
-                                        there
-                                        live the blind texts.</p>
-                                </div>
-                            </div>
-                            <div className="col-md-4">
-                                <div className="box ">
-                                    <div className="icon colored-2"><span><i className="icon-screen-desktop"></i></span>
-                                    </div>
-                                    <h3>Fully responsive</h3>
-                                    <p>Far far away, behind the word mountains, far from the countries Vokalia and
-                                        Consonantia,
-                                        there
-                                        live the blind texts.</p>
-                                </div>
-                                <div className="box to-animate">
-                                    <div className="icon colored-5"><span><i className="icon-rocket"></i></span></div>
-                                    <h3>Fast &amp; light</h3>
-                                    <p>Far far away, behind the word mountains, far from the countries Vokalia and
-                                        Consonantia,
-                                        there
-                                        live the blind texts. Separated they live in Bookmarksgrove right at the coast
-                                        of
-                                        the
-                                        Semantics,
-                                        a large language ocean.</p>
-                                </div>
-                            </div>
-                            <div className="col-md-4">
-                                <div className="box ">
-                                    <div className="icon colored-3"><span><i className="icon-eye"></i></span></div>
-                                    <h3>Retina-ready</h3>
-                                    <p>Far far away, behind the word mountains, far from the countries Vokalia and
-                                        Consonantia,
-                                        there
-                                        live the blind texts. Separated they live in Bookmarksgrove right at the coast
-                                        of
-                                        the
-                                        Semantics,
-                                        a large language ocean.</p>
-                                </div>
-                                <div className="box to-animate">
-                                    <div className="icon colored-6"><span><i className="icon-user"></i></span></div>
-                                    <h3>For creative like you!</h3>
-                                    <p>Far far away, behind the word mountains, far from the countries Vokalia and
-                                        Consonantia,
-                                        there
-                                        live the blind texts.</p>
-                                </div>
-                            </div>
+                    </div>
+                    <div className="col-md-6 col-lg-4">
+                        <div className="homeimage-wrapper"><img src="assets/img/build.png"/></div>
+                        <div className="headText">
+                            <div className="headText-headline">Create competitions</div>
+                            <div className="headText-text"><p>You have ability to create your own competition.
+                                The interface is highly customizable - its allows you to describe all
+                                steps related to your data set, rules etc. You can easily upload your
+                                training and testing files, set competition time frame etc.</p></div>
+                        </div>
+                    </div>
+                    <div className="col-md-12 col-lg-4">
+                        <div className="homeimage-wrapper"><img src="assets/img/comp.png"/></div>
+                        <div className="headText">
+                            <div className="headText-headline">Take part</div>
+                            <div className="headText-text"><p>After log in you can easily take part in competition
+                                by downloading dataset and then post your submission which will be automated
+                                calculated and you will get your score immediately.</p></div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div className="row">
-                <div id="fh5co-features" data-section="features">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-md-12 section-heading text-center">
-                                <h2 className="single-animate animate-features-1">Features</h2>
-                                <div className="row">
-                                    <div className="col-md-8 col-md-offset-2 single-animate animate-features-2">
-                                        <h3>Far far away, behind the word mountains, far from the countries Vokalia and
-                                            Consonantia,
-                                            there live the blind texts.</h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row row-bottom-padded-sm">
-                            <div className="col-md-4 col-sm-6 col-xs-6 col-xxs-12 fh5co-service to-animate">
-                                <div className="fh5co-icon"><i className="icon-present"></i></div>
-                                <div className="fh5co-desc">
-                                    <h3>100% Free</h3>
-                                    <p>Far far away, behind the word mountains, far from the countries Vokalia and
-                                        Consonantia,
-                                        there
-                                        live the blind texts. </p>
-                                </div>
-                            </div>
-                            <div className="col-md-4 col-sm-6 col-xs-6 col-xxs-12 fh5co-service to-animate">
-                                <div className="fh5co-icon"><i className="icon-eye"></i></div>
-                                <div className="fh5co-desc">
-                                    <h3>Retina Ready</h3>
-                                    <p>Far far away, behind the word mountains, far from the countries Vokalia and
-                                        Consonantia,
-                                        there
-                                        live the blind texts. </p>
-                                </div>
-                            </div>
-                            <div className="clearfix visible-sm-block visible-xs-block"></div>
-                            <div className="col-md-4 col-sm-6 col-xs-6 col-xxs-12 fh5co-service to-animate">
-                                <div className="fh5co-icon"><i className="icon-crop"></i></div>
-                                <div className="fh5co-desc">
-                                    <h3>Fully Responsive</h3>
-                                    <p>Far far away, behind the word mountains, far from the countries Vokalia and
-                                        Consonantia,
-                                        there
-                                        live the blind texts. </p>
-                                </div>
-                            </div>
-                            <div className="col-md-4 col-sm-6 col-xs-6 col-xxs-12 fh5co-service to-animate">
-                                <div className="fh5co-icon"><i className="icon-speedometer"></i></div>
-                                <div className="fh5co-desc">
-                                    <h3>Lightweight</h3>
-                                    <p>Far far away, behind the word mountains, far from the countries Vokalia and
-                                        Consonantia,
-                                        there
-                                        live the blind texts. </p>
-                                </div>
-                            </div>
-                            <div className="clearfix visible-sm-block visible-xs-block"></div>
-                            <div className="col-md-4 col-sm-6 col-xs-6 col-xxs-12 fh5co-service to-animate">
-                                <div className="fh5co-icon"><i className="icon-heart"></i></div>
-                                <div className="fh5co-desc">
-                                    <h3>Made with Love</h3>
-                                    <p>Far far away, behind the word mountains, far from the countries Vokalia and
-                                        Consonantia,
-                                        there
-                                        live the blind texts. </p>
-                                </div>
-                            </div>
-                            <div className="col-md-4 col-sm-6 col-xs-6 col-xxs-12 fh5co-service to-animate">
-                                <div className="fh5co-icon"><i className="icon-umbrella"></i></div>
-                                <div className="fh5co-desc">
-                                    <h3>Eco Friendly</h3>
-                                    <p>Far far away, behind the word mountains, far from the countries Vokalia and
-                                        Consonantia,
-                                        there
-                                        live the blind texts. </p>
-                                </div>
-                            </div>
-                            <div className="clearfix visible-sm-block visible-xs-block"></div>
-                        </div>
-                        <div className="row">
-                            <div className="col-md-4 col-md-offset-4 single-animate animate-features-3">
-                                <a href="#" className="btn btn-primary btn-block btn-banner">Learn More</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 

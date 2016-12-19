@@ -6,12 +6,64 @@
 @import 'components/burger.scss';
 
 
+
+//extract
+.headText {
+  margin-top: 40px;
+  padding-left: 36px;
+  background: url(../img/headText.png) 0 25px no-repeat;
+}
+
+.headText-headline {
+  font-size: 34px;
+  line-height: 40px;
+  margin-bottom: 19px;
+  color: #27394f;
+}
+
+.homeimage-wrapper img {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+}
+.homeimage-wrapper {
+  margin-top: 61px;
+  margin-bottom: 36px;
+  padding-left: 36px;
+}
+.headText-text {
+  font-size: 18px;
+  text-align: justify;
+  line-height: 30px;
+  color: #667990;
+  margin-bottom: 20px;
+}
+
+.btn-info {
+  border-width: 0px !important;
+  border-radius: 2px;
+}
+.info {
+  margin-left: 5px;
+  margin-top: 5px;
+}
+///
+
 /* =======================================================
 *
 * 	Template Style 
 *	Edit this section
 *
 * ======================================================= */
+.triangle {
+  width: 0;
+  margin-left: 50%;
+  height: 0;
+  border-top: 15px solid #134760;
+  border-left: 19px solid transparent;
+  border-right: 19px solid transparent;
+}
+
 .dropdown-toggle {
   border-radius: 2px !important;
   border-color: #ddd;
