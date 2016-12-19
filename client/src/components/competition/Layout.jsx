@@ -2,6 +2,7 @@ import React, {PropTypes, Component} from "react";
 import BrowsePanel from "./general/BrowsePanel";
 import Leaderboard from "./general/Leaderboard";
 import Author from "./general/Author";
+import Auth from "../../modules/Auth"
 import LinearProgress from "material-ui/LinearProgress";
 
 export default class Layout extends Component {
@@ -35,7 +36,7 @@ export default class Layout extends Component {
     };
 
     render() {
-        const {startDate, endDate, author, leaderboard} = this.props.generalInfo;
+        const {startDate, endDate, username, leaderboard, email } = this.props.generalInfo;
         return (
             <div className="content">
                 {this.props.error ?
@@ -59,12 +60,13 @@ export default class Layout extends Component {
                         </div>
                         <div className="row">
                             <div className="col-md-9 col-xs-9 col-sm-9">
-                                {this.props.children}
+
+                                {React.cloneElement(this.props.children, { owner: email == Auth.getUserEmail() })}
                             </div>
                             <div className="col-md-3 col-sm-3 col-xs-3">
                                 <div className="row">
                                     <div className="col-md-12">
-                                        <BrowsePanel id={this.props.id}/>
+                                        <BrowsePanel id={this.props.id} canConfigure={email == Auth.getUserEmail()}/>
                                     </div>
 
                                     <div className="col-md-12">
@@ -72,7 +74,7 @@ export default class Layout extends Component {
                                     </div>
 
                                     <div className="col-md-12">
-                                        <Author name={author}/>
+                                        <Author name={username}/>
                                     </div>
                                 </div>
                             </div>

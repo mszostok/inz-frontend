@@ -119,7 +119,7 @@ export default class BasicDetails extends Component {
                                                 </div>
                                                 <div className="col-md-2 col-md-offset-1">
                                                     <div className="form-group">
-                                                        <label>Competition Start</label>
+                                                        <label>Start</label>
                                                         <DatePicker
                                                             name="startDate"
                                                             minDate={new Date()}
@@ -129,9 +129,9 @@ export default class BasicDetails extends Component {
                                                         />
                                                     </div>
                                                 </div>
-                                                <div className="col-md-2 ">
+                                                <div className="col-md-2 col-sm-3">
                                                     <div className="form-group has-error">
-                                                        <label>Competition Deadline</label>
+                                                        <label>Deadline</label>
                                                         <DatePicker
                                                             name="endDate"
                                                             minDate={new Date()}

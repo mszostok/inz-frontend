@@ -48,9 +48,9 @@ const Home = ({children}) => (
                     </li>
                     }
                     <li className="active-pro">
-                        <Link to="/upgrade">
+                        <Link activeClassName="active" to="/faq">
                             <i className="pe-7s-rocket"/>
-                            <p>About</p>
+                            <p>FAQ</p>
                         </Link>
                     </li>
                 </ul>
@@ -59,7 +59,6 @@ const Home = ({children}) => (
 
         <div className="main-panel">
             <nav className="navbar navbar-default navbar-fixed">
-
                 <nav className="navbar navbar-default">
                     <div className="navbar-header">
                         <a href="#" className="js-burger-nav-toggle nav-toggle" data-toggle="collapse"
@@ -88,14 +87,25 @@ const Home = ({children}) => (
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link activeClassName="active" to="/notifications" data-toggle="collapse"
+                                    <Link activeClassName="active" to="/competitions" data-toggle="collapse"
                                           data-target="#navbar">
-                                        <p>Notifications</p>
+                                        <i className="pe-7s-science"/>
+                                        <p>Competitions</p>
                                     </Link>
                                 </li>
-                                <li className="active-pro">
-                                    <Link to="/upgrade">
-                                        <p>About</p>
+                                {Auth.isAdmin() &&
+                                < li >
+                                    < Link activeClassName="active" to="/manage" data-toggle="collapse"
+                                           data-target="#navbar">
+                                        <i className="pe-7s-tools"/>
+                                        <p>Manage portal</p>
+                                    </Link>
+                                </li>
+                                }
+                                <li>
+                                    <Link activeClassName="active" to="/faq" data-toggle="collapse"
+                                          data-target="#navbar">
+                                        <p>FAQ</p>
                                     </Link>
                                 </li>
                             </div>

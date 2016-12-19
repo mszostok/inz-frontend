@@ -1,7 +1,6 @@
 import React, {PropTypes, Component} from "react";
 import {Link} from "react-router";
 
-
 export default class BrowsePanel extends Component {
     getLinkFor = (suffix) => {
         const id = this.props.id;
@@ -57,11 +56,18 @@ export default class BrowsePanel extends Component {
                 <div className="header">
                     <p className="title">Browse Panel</p>
                     <hr/>
-
                 </div>
                 <div className="content">
                     <ul className="nav" style={{marginLeft: "-18px"}}>
                         {this.props.preview ? this.printPreviewLi() : this.printLi()}
+                        {this.props.canConfigure &&
+                        <li key="999"><Link to={this.getLinkFor("/manage")}
+                                            style={{color: "#333333"}}
+                                            activeClassName="nav-comp-active">
+                            <i className="pe-7s-config"/> Manage
+                        </Link>
+                        </li>
+                        }
                     </ul>
                 </div>
             </div>

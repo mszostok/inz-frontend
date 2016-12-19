@@ -4,6 +4,7 @@ import Dropzone from "react-dropzone";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import AppCtx from "AppCtx";
+import TextField from "material-ui/TextField";
 
 @observer
 export default class Data extends Component {
@@ -64,6 +65,9 @@ export default class Data extends Component {
 
     updateProperty = (event) => this.props.data.competition[event.target.name] = event.target.value;
 
+    updateFieldText = (key, value) => {
+        this.props.data.competition[key.target.name] = value
+    };
 
     onDropTraining = (files) => {
         this.props.data.competition.files.training = files[0];
@@ -93,6 +97,9 @@ export default class Data extends Component {
                 error: "Uploading training file is required",
             });
             return;
+        }
+        if (this.props.data.competition.allowParticipationFreqMin == undefined) {
+            this.props.data.competition.allowParticipationFreqMin = 1;
         }
         this.props.nextForm()
     };
@@ -138,8 +145,23 @@ export default class Data extends Component {
                                             <span><b>Error - </b> {this.state.error}</span>
                                         </div>
                                         }
-                                        <div className="row ">
-                                            <div className="col-md-12 ">
+                                        <div className="row info">
+                                            <i className="pe-7s-info"/> You can upload your data set but is required
+                                            that those files will be in .csv format with values separated by comma.
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <TextField
+                                                    name="allowParticipationFreqMin"
+                                                    type="number"
+                                                    value="1"
+                                                    floatingLabelText="Allow Frequency of participation in min"
+                                                    floatingLabelStyle={{fontSize: "14px", textTransform: "uppercase"}}
+                                                    style={{width: "300px"}}
+                                                    onChange={this.updateFieldText}
+                                                />
+                                            </div>
+                                            <div className="col-md-6">
                                                 <div className="form-group">
                                                     <SelectField
                                                         value={data.competition.scoreFnId}
@@ -149,7 +171,9 @@ export default class Data extends Component {
                                                     </SelectField>
                                                 </div>
                                             </div>
+
                                         </div>
+
                                         <div className="row row-centered">
                                             <div className="col-md-6 col-centered">
                                                 <div className="form-group">

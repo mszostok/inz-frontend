@@ -14,9 +14,9 @@ export default class Data extends Component {
         };
         this.default = {
             msg: {
-                formulaDescription: '<p>Here you can put all information about your competition</p>',
+                formulaDescription: '<p>Here you can put all information about your competition rules.</p>',
                 datasetDescription: '<p>Here you should describe your data set -all information which are be useful for other user. </p>',
-                introductionDescription: '<p>All information about rules, which metric will be used to check uploaded solution etc.</p>',
+                introductionDescription: '<p>All information about your competition, which metric will be used to check uploaded solution etc.</p>',
             }
         };
     }
