@@ -15,14 +15,13 @@ export default class Competition extends Component {
     }
 
     async componentDidMount() {
-
         const id = this.props.params.id;
         let generalInfoReq = new Request(AppCtx.serviceBasePath + '/api/competitions/' + id + '/general-info', {
             method: 'GET',
         });
 
         try {
-            let response = await AppCtx.doWithToken(this.context, generalInfoReq, 'competitions/' + id + '/general-info');
+            let response = await AppCtx.doWithToken(this.context, generalInfoReq, '/competition/' + id + '/introduction');
             if (response.status !== 200) {
                 console.log('unexpected response status: ' + response.status);
                 response.json().then(data => {

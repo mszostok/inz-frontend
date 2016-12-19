@@ -46,22 +46,32 @@ export default class Competitions extends Component {
     }
 
     renderResultRows() {
-        return this.data.competitions.map((competition, index) => {
-            if (competition.id && competition.name && competition.shortDescription) {
-                return (
-                    <tr data-item={competition.id} key={index} onClick={this.goToCompetition}>
-                        <td data-item={competition.id} width="10px">
-                            <i className="pe-7s-science" style={{fontSize: "2.5em"}}/>
-                        </td>
-                        <td data-item={competition.id} style={{paddingTop: "25px"}}>
-                            <h5 className="title">{competition.name}</h5>
-                            <div className="description">{competition.shortDescription}  </div>
-                            <div className="description author">Author {competition.author}</div>
-                        </td>
-                    </tr>
-                );
-            }
-        });
+        if (this.data.competitions.length > 0) {
+            return this.data.competitions.map((competition, index) => {
+                if (competition.id && competition.name && competition.shortDescription) {
+                    return (
+                        <tr data-item={competition.id} key={index} onClick={this.goToCompetition}>
+                            <td data-item={competition.id} width="10px">
+                                <i className="pe-7s-science" style={{fontSize: "2.5em"}}/>
+                            </td>
+                            <td data-item={competition.id} style={{paddingTop: "25px"}}>
+                                <h5 className="title">{competition.name}</h5>
+                                <div className="description">{competition.shortDescription}  </div>
+                                <div className="description author">Author {competition.author}</div>
+                            </td>
+                        </tr>
+                    );
+                }
+            });
+        } else {
+            return (
+                <tr key="1">
+                    <td >
+                        <div>Currently we do not have any active competition</div>
+                    </td>
+                </tr>
+            );
+        }
     }
 
     render() {

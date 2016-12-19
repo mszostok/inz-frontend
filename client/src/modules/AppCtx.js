@@ -8,20 +8,39 @@ class AppCtx {
             fetch(req)
                 .then(response => {
                         if (response.status === 401) {
-                            Auth.deauthenticateUser();
-                            context.router.replace({
-                                pathname: '/login',
-                                state: {nextPathname: returnPath}
+                            Auth.tryRefreshToken().then(_ => {
+                                req.headers.set("Authorization", "Bearer " + Auth.getToken());
+                                fetch(req)
+                                    .then(response => {
+                                            if (response.status === 401) {
+                                                Auth.deauthenticateUser();
+                                                context.router.replace({
+                                                    pathname: '/login',
+                                                    state: {nextPathname: returnPath}
+                                                });
+                                                return;
+                                            }
+                                            resolve(response);
+                                        }
+                                    ).catch(reason => {
+                                    console.log('while do with token ', reason);
+                                    reject("Service token expired");
+                                })
+                            }).catch(_ => {
+                                Auth.deauthenticateUser();
+                                context.router.replace({
+                                    pathname: '/login',
+                                    state: {nextPathname: returnPath}
+                                });
                             });
                             return;
                         }
                         resolve(response);
                     }
-                )
-                .catch(reason => {
-                    console.log('while do with token ', reason);
-                    reject("Service unavailable");
-                });
+                ).catch(reason => {
+                console.log('while do with token ', reason);
+                reject("Service unavailable");
+            });
         })
     }
 

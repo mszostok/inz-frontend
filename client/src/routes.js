@@ -2,6 +2,7 @@ import Base from "./components/Base.jsx";
 import Landing from "./components/Landing";
 import Home from "./components/Home";
 import DashboardPage from "./containers/DashboardPage";
+import DashboardGraphsPage from "./containers/DashboardGraphsPage";
 import EntryForm from "./components/EntryForm";
 import Introduction from "./components/competition/content/Introduction";
 import Formula from "./components/competition/content/Formula";
@@ -17,6 +18,7 @@ import ManagePage from "./containers/ManagePage";
 import Auth from "./modules/Auth";
 import ManageUsers from "./components/manage/Users";
 import ManageCompetitions from "./components/manage/Competitions";
+import ManageCompetition from "./components/competition/manage/Manage"
 
 
 const routes = {
@@ -41,6 +43,11 @@ const routes = {
                     path: '/dashboard',
                     component: DashboardPage,
                 },
+                {
+                    path: '/dashboard/competition/:id/graphs',
+                    component: DashboardGraphsPage,
+                },
+
                 {
                     path: '/profile',
                     component: ProfilePage,
@@ -72,6 +79,11 @@ const routes = {
                             path: '/competition/:id/post-submission',
                             component: PostSubmission,
                         },
+                        {
+                            path: '/competition/:id/manage',
+                            component: ManageCompetition,
+                        },
+
                     ]
                 },
                 {

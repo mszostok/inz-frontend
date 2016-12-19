@@ -28,10 +28,10 @@ export default class ManageUser extends Component {
 
 
     async componentDidMount() {
-      this.fetchUsers();
+        this.fetchUsers();
     }
 
-    fetchUsers = async function() {
+    fetchUsers = async function () {
         let usersReq = new Request(AppCtx.serviceBasePath + '/api/users/', {
             method: 'GET',
         });
@@ -65,8 +65,10 @@ export default class ManageUser extends Component {
             open: true,
         });
         this.data.selectedUser = {
+            username: row.username,
             active: row.activated,
             baseActive: row.activated,
+            baseDeleted: row.deleted,
             delete: false,
             id: row.id,
         }
@@ -91,9 +93,7 @@ export default class ManageUser extends Component {
                 });
                 return
             }
-            this.data.users = this.data.users.filter(function (el) {
-                return el.id !== id;
-            });
+            this.fetchUsers();
         } catch (reason) {
             console.log('while fetching general info data: ', reason);
             this.data.error = "Service unavailable";
@@ -124,13 +124,11 @@ export default class ManageUser extends Component {
                 });
                 return;
             }
-           this.fetchCompetitions();
+            this.fetchUsers();
         } catch (reason) {
             console.log('while fetching general info data: ', reason);
             this.data.error = "Service unavailable";
         }
-
-        this.setState({open: false});
     }
 
     handleSubmit = () => {
@@ -192,28 +190,36 @@ export default class ManageUser extends Component {
                 <div className="container-fluid">
                     {this.data.error &&
                     <div className="alert alert-danger fade in"><span><b>Error - </b> {this.data.error}</span></div>}
+
                     <Dialog
-                        title="Mange user"
+                        title={"Mange " + this.data.selectedUser.username}
                         actions={actions}
                         modal={true}
                         open={this.state.open}
                         titleStyle={{color: "rgba(74, 71, 71, 0.870588)", textAlign: "center"}}
-                        contentStyle={{width: "500px"}}
-                    >
-                        <Toggle
-                            toggled={this.data.selectedUser.active}
-                            onToggle={this.handleActivity}
-                            labelPosition="left"
-                            label="User is active"
-                            labelStyle={{color: "rgba(74, 71, 71, 0.870588)", fontWeight: "500"}}
-                        />
-                        <Toggle
-                            toggled={this.data.selectedUser.delete}
-                            onToggle={this.handleDelete}
-                            labelPosition="left"
-                            label="Delete user"
-                            labelStyle={{color: "rgba(247, 58, 58, 0.8)", fontWeight: "500"}}
-                        />
+                        contentStyle={{width: "500px"}}>
+                        {this.data.selectedUser.baseDeleted ?
+                            <div>
+                                User is marked as deleted, so you cannot perform any operation on it.
+                            </div>
+                            :
+                            <div>
+                                <Toggle
+                                    toggled={this.data.selectedUser.active}
+                                    onToggle={this.handleActivity}
+                                    labelPosition="left"
+                                    label="User is active"
+                                    labelStyle={{color: "rgba(74, 71, 71, 0.870588)", fontWeight: "500"}}
+                                />
+                                < Toggle
+                                    toggled={this.data.selectedUser.delete}
+                                    onToggle={this.handleDelete}
+                                    labelPosition="left"
+                                    label="Delete user"
+                                    labelStyle={{color: "rgba(247, 58, 58, 0.8)", fontWeight: "500"}}
+                                />
+                            </div>
+                        }
                     </Dialog>
                 </div>
                 <div className="content">
@@ -234,6 +240,8 @@ export default class ManageUser extends Component {
                                                                dataSort={ true }>Email</TableHeaderColumn>
                                             <TableHeaderColumn dataField='activated' dataSort={ true }
                                                                width='90'>Active</TableHeaderColumn>
+                                            <TableHeaderColumn dataField='deleted' dataSort={ true }
+                                                               width='160'>Mark as deleted</TableHeaderColumn>
                                         </BootstrapTable>
                                         <div className="footer">
                                         </div>
@@ -247,7 +255,6 @@ export default class ManageUser extends Component {
         )
     }
 }
-
 
 
 ManageUser.contextTypes = {

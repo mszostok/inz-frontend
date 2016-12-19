@@ -63,13 +63,14 @@ export default class ManageCompetitions extends Component {
             open: true,
         });
         this.data.selectedCompetition = {
+            baseDeleted: row.deleted,
             delete: false,
             id: row.id,
         }
     };
 
 
-    deleteUser = async function (id) {
+    deleteCompetition = async function (id) {
         let deleteUserReq = new Request(AppCtx.serviceBasePath + '/api/competitions/' + id, {
             method: 'DELETE',
         });
@@ -87,9 +88,7 @@ export default class ManageCompetitions extends Component {
                 });
                 return
             }
-            this.data.competitions = this.data.competitions.filter(function (el) {
-                return el.id !== id;
-            });
+            this.fetchCompetitions();
         } catch (reason) {
             console.log('while fetching general info data: ', reason);
             this.data.error = "Service unavailable";
@@ -99,7 +98,7 @@ export default class ManageCompetitions extends Component {
     handleSubmit = () => {
         this.setState({open: false});
         if (this.data.selectedCompetition.delete) {
-            this.deleteUser(this.data.selectedCompetition.id);
+            this.deleteCompetition(this.data.selectedCompetition.id);
         }
     };
 
@@ -150,6 +149,11 @@ export default class ManageCompetitions extends Component {
                         titleStyle={{color: "rgba(74, 71, 71, 0.870588)", textAlign: "center"}}
                         contentStyle={{width: "500px"}}
                     >
+                        {this.data.selectedCompetition.baseDeleted ?
+                            <div>
+                                Competition is marked as deleted, so you cannot perform any operation on it.
+                            </div>
+                            :
                         <Toggle
                             toggled={this.data.selectedCompetition.delete}
                             onToggle={this.handleDelete}
@@ -157,6 +161,7 @@ export default class ManageCompetitions extends Component {
                             label="Delete competition"
                             labelStyle={{color: "rgba(247, 58, 58, 0.8)", fontWeight: "500"}}
                         />
+                        }
                     </Dialog>
                 </div>
                 <div className="content">
@@ -181,6 +186,8 @@ export default class ManageCompetitions extends Component {
                                                                dataSort={ true } width='120'>Start date</TableHeaderColumn>
                                             <TableHeaderColumn dataField='endDate'
                                                                dataSort={ true } width='90'>End date</TableHeaderColumn>
+                                            <TableHeaderColumn dataField='deleted'
+                                                               dataSort={ true } width='160'>Mark as deleted</TableHeaderColumn>
                                         </BootstrapTable>
                                         <div className="footer">
                                         </div>

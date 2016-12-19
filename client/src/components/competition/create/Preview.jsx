@@ -79,7 +79,7 @@ export default class Preview extends Component {
                                         </div>
                                         <div className="col-md-4 nav-right col-sm-4 col-xs-4">
                                             <button className="btn btn-next" onClick={this.sendCompetition}>
-                                                <i className="fa fa-floppy-o" aria-hidden="true"/>Save
+                                                <i className="pe-7s-diskette" aria-hidden="true"/>Save
                                             </button>
                                         </div>
                                     </div>

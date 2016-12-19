@@ -3,10 +3,14 @@ import jwtDecode from "jwt-decode";
 
 class Auth {
 
-    static authenticateUser(token) {
-        localStorage.setItem('token', token);
+    static authenticateUser(data) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('refreshToken', data.refreshToken);
     }
 
+    static getUserEmail() {
+        return jwtDecode(Auth.getToken()).sub
+    }
     static isAdmin() {
         return jwtDecode(Auth.getToken()).scopes.includes("ADMIN")
     }
@@ -14,12 +18,48 @@ class Auth {
         return localStorage.getItem('token') !== null;
     }
 
+    static tryRefreshToken() {
+        let loginReq = new Request(AppCtx.serviceBasePath + '/api/auth/token', {
+            method: 'GET',
+            headers: new Headers({
+                "Authorization": "Bearer " + Auth.getRefreshToken(),
+            }),
+        });
+
+        return new Promise((resolve, reject) => {
+            fetch(loginReq).then(response => {
+                    if (response.status !== 200) {
+                        console.log('unexpected response status: ' + response.status);
+                        response.json().then(function (data) {
+                            if (data.error) {
+                                reject(data.error);
+                            } else {
+                                reject(data.message);
+                            }
+                        });
+                    }
+                    response.json().then(function (tokens) {
+                        Auth.authenticateUser(tokens);
+                        resolve();
+                    });
+                }
+            ).catch(reason => {
+                console.log('while do with token ', reason);
+                reject("Service unavailable");
+            });
+        });
+    }
     static deauthenticateUser() {
         localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
     }
 
     static getToken() {
         return localStorage.getItem('token');
+    }
+
+    static getRefreshToken() {
+        return localStorage.getItem('refreshToken');
     }
 
     static redirectToLogin(nextState, replace) {
@@ -58,8 +98,8 @@ class Auth {
                             }
                         });
                     }
-                    response.json().then(function (data) {
-                        Auth.authenticateUser(data.token);
+                    response.json().then(function (tokens) {
+                        Auth.authenticateUser(tokens);
                         resolve();
                     });
                 }
