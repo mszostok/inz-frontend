@@ -1,6 +1,7 @@
 import React, {PropTypes, Component} from "react";
 import {observer} from "mobx-react";
 
+
 @observer
 export default class Dashboard extends Component {
     constructor(props, context) {
@@ -8,8 +9,20 @@ export default class Dashboard extends Component {
     }
 
     goToCompetition = (e) => {
-        const id = e.target.parentNode.getAttribute('data-item');
+        let type = e.target.getAttribute('datatype');
+        console.log("graph");
+        if ( type == "graph") {
+            return;
+        }
+
+        const id = e.target.getAttribute('data-item');
         this.context.router.replace('competition/' + id + '/introduction');
+    };
+
+    goToGraph = (e) => {
+        console.log("aa")
+        const id = e.target.getAttribute('data-item');
+        this.context.router.replace('/dashboard/competition/' + id + '/graphs');
     };
 
     printParticipation = () => {
@@ -19,8 +32,10 @@ export default class Dashboard extends Component {
                 return (
                     <tr data-item={part.competitionId} key={idx} onClick={this.goToCompetition}>
                         <td data-item={part.competitionId}>{part.competitionName}</td>
-                        <td data-item={part.competitionId}>{part.lastScore}</td>
-                        <td data-item={part.competitionId}>{part.bestScore}</td>
+                        <td data-item={part.competitionId}>{part.lastScore}%</td>
+                        <td data-item={part.competitionId}>{part.bestScore}%</td>
+                        <td data-item={part.competitionId} datatype="graph" onClick={this.goToGraph}>
+                            <i className="pe-7s-graph1"/> Show graphs</td>
                     </tr>
                 )
             })
@@ -71,6 +86,7 @@ export default class Dashboard extends Component {
                                             <th>Competition Name</th>
                                             <th>Last Score</th>
                                             <th>Best Score</th>
+                                            <th>Graphs</th>
                                         </tr>
                                         }
                                         </thead>
